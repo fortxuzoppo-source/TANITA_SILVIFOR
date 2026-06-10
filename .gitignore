@@ -29,6 +29,13 @@ IOS/App/Pods/
 IOS/App/App/public/
 IOS/App/App/capacitor.config.json
 IOS/App/App/config.xml
+IOS/*.exe
+IOS/*.ipa
+IOS/SilviForTANITA-unsigned-ipa/
+
+# Local Windows launch helpers generated outside the repo.
+PC/*.lnk
+PC/ICONO_TANITA.ico
 
 # Legacy vendor program, not needed to run SilviForTANITA.
 PC/HealthyEdgeLite_V2_13_3/
