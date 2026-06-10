@@ -12,6 +12,16 @@ Abrir_SilviForTANITA.bat
 
 Ese archivo arranca el servidor local si hace falta y abre la app en el navegador.
 
+## Apps moviles
+
+El proyecto incluye una base Capacitor para Android e iOS:
+
+- `APK/`: proyecto Android.
+- `IOS/`: proyecto iOS.
+- `Crear_APK_SilviForTANITA.bat`: intenta crear una APK debug en Windows.
+
+Consulta `MOBILE.md` para ver requisitos y flujo de trabajo.
+
 ## Arranque manual
 
 ```powershell

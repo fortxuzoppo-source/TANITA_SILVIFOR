@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">SilviForTANITA</string>
+    <string name="title_activity_main">SilviForTANITA</string>
+    <string name="package_name">com.silvifortanita.app</string>
+    <string name="custom_url_scheme">com.silvifortanita.app</string>
+</resources>

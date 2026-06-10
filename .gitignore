@@ -1,10 +1,30 @@
 __pycache__/
 *.py[cod]
+node_modules/
+npm-debug.log*
+mobile-www/
 
 # Personal / health data loaded from the scale.
 TANITA/
 SilviForTANITA/data/
 SilviForTANITA/SilviForTANITA_*.csv
+
+# Mobile build products.
+APK/app/build/
+APK/.gradle/
+APK/build/
+APK/local.properties
+APK/app/src/main/assets/public/
+APK/app/src/main/assets/capacitor.config.json
+APK/app/src/main/assets/capacitor.plugins.json
+APK/app/src/main/res/xml/config.xml
+IOS/App/build/
+IOS/DerivedData/
+IOS/Pods/
+IOS/App/Pods/
+IOS/App/App/public/
+IOS/App/App/capacitor.config.json
+IOS/App/App/config.xml
 
 # Legacy vendor program, not needed to run SilviForTANITA.
 HealthyEdgeLite_V2_13_3/
