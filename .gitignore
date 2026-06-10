@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+
+# Personal / health data loaded from the scale.
+TANITA/
+SilviForTANITA/data/
+SilviForTANITA/SilviForTANITA_*.csv
+
+# Legacy vendor program, not needed to run SilviForTANITA.
+HealthyEdgeLite_V2_13_3/
+
+# Local logs and OS files.
+*.log
+Thumbs.db
+.DS_Store
