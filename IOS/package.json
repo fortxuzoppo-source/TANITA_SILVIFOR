@@ -1,0 +1,18 @@
+{
+  "name": "silvifortanita-ios",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Empaquetado iOS de SilviForTANITA.",
+  "scripts": {
+    "mobile:prepare": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/prepare-mobile-web.ps1",
+    "ios:sync": "npm run mobile:prepare && cap sync ios",
+    "ios:open": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^8.4.0",
+    "@capacitor/ios": "^8.4.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.4.0"
+  }
+}

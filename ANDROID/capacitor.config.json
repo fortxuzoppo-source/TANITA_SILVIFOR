@@ -1,0 +1,8 @@
+{
+  "appId": "com.silvifortanita.app",
+  "appName": "SilviForTANITA",
+  "webDir": "mobile-www",
+  "android": {
+    "path": "APK"
+  }
+}

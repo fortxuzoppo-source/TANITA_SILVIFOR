@@ -1,23 +1,27 @@
-__pycache__/
 *.py[cod]
-node_modules/
 npm-debug.log*
-mobile-www/
 
 # Personal / health data loaded from the scale.
-TANITA/
-SilviForTANITA/data/
-SilviForTANITA/SilviForTANITA_*.csv
+PC/TANITA/
+PC/SilviForTANITA/data/
+PC/SilviForTANITA/SilviForTANITA_*.csv
 
-# Mobile build products.
-APK/app/build/
-APK/.gradle/
-APK/build/
-APK/local.properties
-APK/app/src/main/assets/public/
-APK/app/src/main/assets/capacitor.config.json
-APK/app/src/main/assets/capacitor.plugins.json
-APK/app/src/main/res/xml/config.xml
+# Android build products.
+ANDROID/node_modules/
+ANDROID/mobile-www/
+ANDROID/APK/app/build/
+ANDROID/APK/.gradle/
+ANDROID/APK/build/
+ANDROID/APK/local.properties
+ANDROID/APK/SilviForTANITA-debug.apk
+ANDROID/APK/app/src/main/assets/public/
+ANDROID/APK/app/src/main/assets/capacitor.config.json
+ANDROID/APK/app/src/main/assets/capacitor.plugins.json
+ANDROID/APK/app/src/main/res/xml/config.xml
+
+# iOS build products.
+IOS/node_modules/
+IOS/mobile-www/
 IOS/App/build/
 IOS/DerivedData/
 IOS/Pods/
@@ -27,7 +31,10 @@ IOS/App/App/capacitor.config.json
 IOS/App/App/config.xml
 
 # Legacy vendor program, not needed to run SilviForTANITA.
-HealthyEdgeLite_V2_13_3/
+PC/HealthyEdgeLite_V2_13_3/
+
+# Python cache.
+PC/__pycache__/
 
 # Local logs and OS files.
 *.log

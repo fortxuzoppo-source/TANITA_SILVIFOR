@@ -1,0 +1,2974 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SilviForTANITA</title>
+  <link rel="icon" href="assets/icono-tanita.png">
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-2: #f0f4f5;
+      --text: #172026;
+      --muted: #65727d;
+      --line: #d8e0e4;
+      --accent: #087f8c;
+      --accent-2: #d95d39;
+      --accent-3: #3f7d20;
+      --warn: #b7791f;
+      --danger: #b42318;
+      --accent-strong: #066b76;
+      --hover-border: #a8b7bd;
+      --danger-border: #f3b7b1;
+      --danger-bg: #fff5f4;
+      --danger-hover: #ffe9e6;
+      --soft-bg: #fbfcfc;
+      --canvas-bg: #ffffff;
+      --tooltip-bg: rgba(255, 255, 255, 0.96);
+      --body-map-bg: #fff8e9;
+      --callout-bg: rgba(255, 255, 255, 0.86);
+      --flagged-bg: #fff7ed;
+      --tag-bg: #fff0df;
+      --tag-text: #8a4b10;
+      --tag-border: #ffd8a8;
+      --shadow: 0 12px 30px rgba(23, 32, 38, 0.08);
+      --radius: 8px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    body[data-theme="dark"] {
+      --bg: #11181c;
+      --panel: #182226;
+      --panel-2: #202c31;
+      --text: #edf4f6;
+      --muted: #a7b5bb;
+      --line: #314149;
+      --accent: #30b7c4;
+      --accent-2: #f07a55;
+      --accent-3: #7fcf6b;
+      --warn: #e5b155;
+      --danger: #ff8a7c;
+      --accent-strong: #239aa6;
+      --hover-border: #5c7078;
+      --danger-border: #9f4b45;
+      --danger-bg: #2d1d1d;
+      --danger-hover: #3a2424;
+      --soft-bg: #202c31;
+      --canvas-bg: #182226;
+      --tooltip-bg: rgba(24, 34, 38, 0.96);
+      --body-map-bg: #24231f;
+      --callout-bg: rgba(24, 34, 38, 0.88);
+      --flagged-bg: #31261f;
+      --tag-bg: #3a2a1b;
+      --tag-text: #ffd18f;
+      --tag-border: #6d4b24;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        linear-gradient(180deg, var(--panel) 0, var(--bg) 220px),
+        var(--bg);
+      color: var(--text);
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 7px;
+      min-height: 38px;
+      padding: 0 12px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      border-color: var(--hover-border);
+      background: var(--panel-2);
+    }
+
+    input[type="date"],
+    input[type="time"],
+    input[type="number"],
+    select {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 10px;
+    }
+
+    input[type="text"] {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+      color: var(--text);
+      padding: 0 10px;
+      width: 100%;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+
+    button.primary:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    button.ghost {
+      background: transparent;
+    }
+
+    button.danger {
+      color: var(--danger);
+      border-color: var(--danger-border);
+      background: var(--danger-bg);
+    }
+
+    button.danger:hover {
+      background: var(--danger-hover);
+      border-color: var(--danger);
+    }
+
+    button.segment {
+      min-width: 92px;
+      padding: 0 10px;
+      background: var(--panel);
+    }
+
+    button.segment.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .app-shell {
+      width: 100%;
+      margin: 0;
+      padding: 10px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 5px 14px rgba(23, 32, 38, 0.16);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .data-menu {
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .data-menu summary {
+      list-style: none;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      background: var(--accent);
+      color: #ffffff;
+      padding: 0 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .data-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .data-menu summary::after {
+      content: "v";
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .data-menu[open] summary {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .data-menu-panel {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      z-index: 10;
+      min-width: 230px;
+      display: grid;
+      gap: 6px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .data-menu-panel button {
+      justify-content: flex-start;
+      text-align: left;
+      width: 100%;
+    }
+
+    .theme-toggle {
+      min-width: 128px;
+      flex: 0 0 auto;
+    }
+
+    .hidden-input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .status-line {
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .status-line strong {
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    .profile-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .metric-card,
+    .panel,
+    .table-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-card {
+      padding: 14px;
+      min-height: 92px;
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .metric-value {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 780;
+      line-height: 1.15;
+      white-space: nowrap;
+    }
+
+    .metric-sub {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: minmax(270px, 340px) minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+
+    .panel {
+      padding: 16px;
+    }
+
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .profile-details {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .profile-name-field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .detail-row {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 10px;
+      align-items: baseline;
+      font-size: 14px;
+    }
+
+    .detail-row span:first-child {
+      color: var(--muted);
+    }
+
+    .latest-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .mini-stat {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 10px;
+      min-height: 74px;
+      background: var(--soft-bg);
+    }
+
+    .mini-stat .value {
+      font-size: 20px;
+      font-weight: 760;
+      margin-top: 6px;
+      overflow-wrap: anywhere;
+    }
+
+    .chart-panel {
+      min-height: 470px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .chart-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .chart-title {
+      font-size: 18px;
+      font-weight: 740;
+      margin: 0;
+    }
+
+    .chart-meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .metric-select {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .chart-controls {
+      display: grid;
+      gap: 10px;
+      justify-items: end;
+    }
+
+    .date-filter {
+      display: flex;
+      gap: 8px;
+      align-items: end;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .date-field {
+      display: grid;
+      gap: 4px;
+    }
+
+    .date-field label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .canvas-box {
+      position: relative;
+      width: 100%;
+      height: 330px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--canvas-bg);
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+
+    .chart-tooltip {
+      position: absolute;
+      z-index: 4;
+      min-width: 190px;
+      max-width: 260px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--tooltip-bg);
+      box-shadow: 0 10px 24px rgba(23, 32, 38, 0.18);
+      color: var(--text);
+      font-size: 13px;
+      pointer-events: none;
+    }
+
+    .chart-tooltip strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .chart-tooltip .muted {
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .chart-tuning {
+      display: grid;
+      grid-template-columns: minmax(150px, 0.8fr) minmax(180px, 1fr) minmax(180px, 1fr);
+      gap: 12px;
+      align-items: end;
+    }
+
+    .range-field {
+      display: grid;
+      gap: 5px;
+    }
+
+    .range-field label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .body-composition {
+      display: grid;
+      gap: 10px;
+    }
+
+    .body-map {
+      position: relative;
+      min-height: 360px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--body-map-bg);
+      overflow: hidden;
+    }
+
+    .body-figure {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      opacity: 0.96;
+    }
+
+    .segment-callout {
+      position: absolute;
+      z-index: 2;
+      width: min(160px, 32%);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.25;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--callout-bg);
+      box-shadow: 0 8px 24px rgba(23, 32, 38, 0.10);
+    }
+
+    .segment-callout strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--accent);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .segment-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 6px;
+      align-items: center;
+      margin-top: 3px;
+    }
+
+    .segment-value {
+      min-width: 48px;
+      padding: 2px 5px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .segment-unit {
+      min-width: 16px;
+      font-weight: 700;
+    }
+
+    .callout-left-arm {
+      left: 4%;
+      top: 18%;
+    }
+
+    .callout-right-arm {
+      right: 4%;
+      top: 18%;
+    }
+
+    .callout-trunk {
+      left: 50%;
+      top: 38%;
+      transform: translateX(-50%);
+    }
+
+    .callout-left-leg {
+      left: 5%;
+      bottom: 11%;
+    }
+
+    .callout-right-leg {
+      right: 5%;
+      bottom: 11%;
+    }
+
+    .analysis-bars {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .gauge-card {
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--soft-bg);
+      padding: 11px;
+    }
+
+    .gauge-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: baseline;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    .gauge-track {
+      position: relative;
+      height: 24px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      overflow: hidden;
+    }
+
+    .gauge-band {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
+
+    .gauge-band.low {
+      background: linear-gradient(90deg, #fff36a, #fff8a8);
+    }
+
+    .gauge-band.good {
+      background: linear-gradient(90deg, #b7edb7, #eff9ef);
+    }
+
+    .gauge-band.warn {
+      background: linear-gradient(90deg, #ffd670, #fff0ad);
+    }
+
+    .gauge-band.high {
+      background: linear-gradient(90deg, #ffbeb9, #ff5d65);
+    }
+
+    .gauge-marker {
+      position: absolute;
+      top: -4px;
+      bottom: -4px;
+      width: 3px;
+      background: var(--text);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+    }
+
+    .gauge-scale {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 5px;
+    }
+
+    .table-wrap {
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    .table-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .table-head h2 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .table-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .table-tabs {
+      display: inline-flex;
+      gap: 6px;
+      padding: 3px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-2);
+    }
+
+    .table-tabs button {
+      min-height: 32px;
+      border-color: transparent;
+      background: transparent;
+    }
+
+    .table-tabs button.active {
+      border-color: var(--accent);
+      background: var(--panel);
+      color: var(--accent);
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+
+    .table-scroll {
+      overflow: auto;
+      max-height: 470px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1180px;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #e7ecef;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    th:first-child,
+    td:first-child,
+    th:nth-child(2),
+    td:nth-child(2),
+    th:last-child,
+    td:last-child {
+      text-align: left;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: var(--panel-2);
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    tr.flagged td {
+      background: var(--flagged-bg);
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid var(--tag-border);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    .empty {
+      min-height: 0;
+      border: 1px dashed var(--hover-border);
+      border-radius: var(--radius);
+      background: var(--panel);
+      padding: 14px 16px;
+    }
+
+    .empty h2 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    .empty p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.45;
+    }
+
+    .manual-dialog {
+      width: min(980px, calc(100vw - 28px));
+      max-height: min(820px, calc(100vh - 28px));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 24px 70px rgba(23, 32, 38, 0.28);
+      padding: 0;
+    }
+
+    .manual-dialog::backdrop {
+      background: rgba(23, 32, 38, 0.38);
+    }
+
+    .manual-form {
+      display: grid;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .manual-form h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .manual-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(130px, 1fr));
+      gap: 10px;
+    }
+
+    .manual-field {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .manual-field strong {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .manual-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 1080px) {
+      .summary-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .app-shell {
+        padding: 8px;
+      }
+
+      .topbar,
+      .chart-head,
+      .table-head {
+        grid-template-columns: 1fr;
+      }
+
+      .actions,
+      .table-actions,
+      .metric-select,
+      .date-filter {
+        justify-content: stretch;
+      }
+
+      .actions {
+        justify-content: flex-end;
+      }
+
+      .table-actions button,
+      .table-tabs,
+      .metric-select button,
+      .date-filter button,
+      .date-field {
+        flex: 1 1 auto;
+      }
+
+      .summary-grid,
+      .latest-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-tuning,
+      .manual-grid,
+      .analysis-bars {
+        grid-template-columns: 1fr;
+      }
+
+      .chart-controls {
+        justify-items: stretch;
+      }
+
+      .body-map {
+        min-height: 520px;
+      }
+
+      .segment-callout {
+        width: 43%;
+      }
+
+      .callout-left-arm {
+        left: 3%;
+        top: 14%;
+      }
+
+      .callout-right-arm {
+        right: 3%;
+        top: 14%;
+      }
+
+      .callout-trunk {
+        top: 39%;
+        width: 48%;
+      }
+
+      .callout-left-leg {
+        left: 3%;
+        bottom: 9%;
+      }
+
+      .callout-right-leg {
+        right: 3%;
+        bottom: 9%;
+      }
+
+      .detail-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img class="brand-mark" src="assets/icono-tanita.png" alt="">
+        <div>
+          <h1>SilviForTANITA</h1>
+          <div class="subtitle">BC-601/602 - importador local de tarjeta SD</div>
+        </div>
+      </div>
+      <div class="actions">
+        <input id="folderInput" class="hidden-input" type="file" multiple webkitdirectory directory accept=".csv,.txt">
+        <input id="fileInput" class="hidden-input" type="file" multiple accept=".csv,.txt">
+        <details class="data-menu" id="dataMenu">
+          <summary>Datos</summary>
+          <div class="data-menu-panel">
+            <button id="importButton" type="button">Importar GRAPHV1</button>
+            <button id="importFilesButton" type="button">Importar respaldo CSV</button>
+            <button id="exportButton" type="button">Exportar respaldo CSV</button>
+          </div>
+        </details>
+        <button id="themeToggle" class="theme-toggle" type="button">Modo oscuro</button>
+      </div>
+    </header>
+
+    <div class="status-line" id="statusLine">Preparando lector de datos...</div>
+
+    <section id="emptyState" class="empty" hidden>
+      <p>Sin lecturas cargadas. Usa Datos para importar la tarjeta GRAPHV1 o restaurar un respaldo CSV.</p>
+    </section>
+
+    <section id="dashboard" hidden>
+      <nav class="profile-strip" id="profileStrip" aria-label="Perfiles"></nav>
+
+      <section class="summary-grid" id="summaryGrid"></section>
+
+      <section class="main-grid">
+        <aside class="panel" id="profilePanel"></aside>
+
+        <section class="panel chart-panel">
+          <div class="chart-head">
+            <div>
+              <p class="chart-title" id="chartTitle">Evolución</p>
+              <div class="chart-meta" id="chartMeta"></div>
+            </div>
+            <div class="chart-controls">
+              <div class="metric-select" id="metricSelect" aria-label="Métrica"></div>
+              <div class="date-filter">
+                <div class="date-field">
+                  <label for="dateFrom">Desde</label>
+                  <input id="dateFrom" type="date">
+                </div>
+                <div class="date-field">
+                  <label for="dateTo">Hasta</label>
+                  <input id="dateTo" type="date">
+                </div>
+                <button id="resetDatesButton" type="button">Todo</button>
+              </div>
+            </div>
+          </div>
+          <div class="canvas-box">
+            <canvas id="trendCanvas"></canvas>
+            <div class="chart-tooltip" id="chartTooltip" hidden></div>
+          </div>
+          <div class="chart-tuning">
+            <div class="range-field">
+              <label for="yZoomRange">Escala vertical</label>
+              <input id="yZoomRange" type="range" min="0" max="100" value="40">
+            </div>
+            <div class="range-field">
+              <label for="dateWindowStart">Inicio visible</label>
+              <input id="dateWindowStart" type="range" min="0" max="0" value="0">
+            </div>
+            <div class="range-field">
+              <label for="dateWindowSize">Amplitud de fechas</label>
+              <input id="dateWindowSize" type="range" min="1" max="1" value="1">
+            </div>
+          </div>
+          <div class="segments" id="segmentPanel"></div>
+        </section>
+      </section>
+
+      <section class="table-wrap">
+        <div class="table-head">
+          <h2>Lecturas</h2>
+          <div class="table-actions">
+            <div class="table-tabs" id="tableTabs" aria-label="Tipo de lectura"></div>
+            <button id="addReadingButton" type="button">Añadir lectura</button>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Perfil</th>
+                <th>Fecha</th>
+                <th>Peso kg</th>
+                <th>IMC</th>
+                <th>Grasa %</th>
+                <th>Músculo kg</th>
+                <th>Visceral</th>
+                <th>Agua %</th>
+                <th>DCI kcal</th>
+                <th>Edad corporal</th>
+                <th>Nota</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="readingsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <dialog class="manual-dialog" id="manualDialog">
+      <form class="manual-form" id="manualForm" method="dialog">
+        <h2>Añadir lectura manual</h2>
+        <div class="manual-grid">
+          <label class="manual-field">
+            <strong>Perfil</strong>
+            <select name="slot" id="manualSlot" required></select>
+          </label>
+          <label class="manual-field">
+            <strong>Fecha</strong>
+            <input name="date" type="date" required>
+          </label>
+          <label class="manual-field">
+            <strong>Hora</strong>
+            <input name="time" type="time" step="60" required>
+          </label>
+          <label class="manual-field">
+            <strong>Modelo</strong>
+            <input name="model" type="text" placeholder="BC-601">
+          </label>
+          <label class="manual-field">
+            <strong>Peso kg</strong>
+            <input name="Wk" type="number" step="0.1" required>
+          </label>
+          <label class="manual-field">
+            <strong>IMC</strong>
+            <input name="MI" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa corporal %</strong>
+            <input name="FW" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Músculo total kg</strong>
+            <input name="mW" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa brazo der. %</strong>
+            <input name="Fr" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa brazo izq. %</strong>
+            <input name="Fl" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa pierna der. %</strong>
+            <input name="FR" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa pierna izq. %</strong>
+            <input name="FL" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa tronco %</strong>
+            <input name="FT" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Músculo brazo der. kg</strong>
+            <input name="mr" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Músculo brazo izq. kg</strong>
+            <input name="ml" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Músculo pierna der. kg</strong>
+            <input name="mR" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Músculo pierna izq. kg</strong>
+            <input name="mL" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Músculo tronco kg</strong>
+            <input name="mT" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Masa ósea kg</strong>
+            <input name="bW" type="number" step="0.1">
+          </label>
+          <label class="manual-field">
+            <strong>Grasa visceral</strong>
+            <input name="IF" type="number" step="1">
+          </label>
+          <label class="manual-field">
+            <strong>DCI kcal</strong>
+            <input name="rD" type="number" step="1">
+          </label>
+          <label class="manual-field">
+            <strong>Edad corporal</strong>
+            <input name="rA" type="number" step="1">
+          </label>
+          <label class="manual-field">
+            <strong>Agua corporal %</strong>
+            <input name="ww" type="number" step="0.1">
+          </label>
+        </div>
+        <div class="manual-actions">
+          <button id="cancelManualButton" type="button">Cancelar</button>
+          <button class="primary" type="submit">Guardar lectura</button>
+        </div>
+      </form>
+    </dialog>
+  </main>
+
+  <script>
+    const SAMPLE_FILES = [
+      "../TANITA/GRAPHV1/SYSTEM/SYSTEM.TXT",
+      "../TANITA/GRAPHV1/SYSTEM/PROF1.CSV",
+      "../TANITA/GRAPHV1/SYSTEM/PROF2.CSV",
+      "../TANITA/GRAPHV1/SYSTEM/PROF3.CSV",
+      "../TANITA/GRAPHV1/SYSTEM/PROF4.CSV",
+      "../TANITA/GRAPHV1/DATA/DATA1.CSV",
+      "../TANITA/GRAPHV1/DATA/DATA2.CSV",
+      "../TANITA/GRAPHV1/DATA/DATA3.CSV",
+      "../TANITA/GRAPHV1/DATA/DATA4.CSV"
+    ];
+
+    const STORAGE_KEY = "SilviForTANITA.history.v1";
+    const PREFIX_CODES = new Set(["0", "~0", "~1", "~2", "~3"]);
+
+    const FIELD_DEFS = {
+      MO: { label: "Modelo", type: "text" },
+      DT: { label: "Fecha", type: "date" },
+      Ti: { label: "Hora", type: "time" },
+      DB: { label: "Nacimiento", type: "date" },
+      Bt: { label: "Modo corporal", type: "profileCode" },
+      GE: { label: "Sexo", type: "gender" },
+      AG: { label: "Edad", unit: "años" },
+      Hm: { label: "Altura", unit: "cm" },
+      AL: { label: "Actividad", type: "activity" },
+      Wk: { label: "Peso", unit: "kg" },
+      MI: { label: "IMC" },
+      FW: { label: "Grasa corporal", unit: "%" },
+      Fr: { label: "Grasa brazo derecho", unit: "%" },
+      Fl: { label: "Grasa brazo izquierdo", unit: "%" },
+      FR: { label: "Grasa pierna derecha", unit: "%" },
+      FL: { label: "Grasa pierna izquierda", unit: "%" },
+      FT: { label: "Grasa tronco", unit: "%" },
+      mW: { label: "Músculo", unit: "kg" },
+      mr: { label: "Músculo brazo derecho", unit: "kg" },
+      ml: { label: "Músculo brazo izquierdo", unit: "kg" },
+      mR: { label: "Músculo pierna derecha", unit: "kg" },
+      mL: { label: "Músculo pierna izquierda", unit: "kg" },
+      mT: { label: "Músculo tronco", unit: "kg" },
+      bW: { label: "Masa ósea", unit: "kg" },
+      IF: { label: "Grasa visceral" },
+      rD: { label: "DCI", unit: "kcal" },
+      rA: { label: "Edad corporal", unit: "años" },
+      ww: { label: "Agua corporal", unit: "%" },
+      CS: { label: "Checksum", type: "text" }
+    };
+
+    const METRICS = [
+      { key: "Wk", label: "Peso", color: "#087f8c" },
+      { key: "MI", label: "IMC", color: "#705c9f" },
+      { key: "FW", label: "Grasa corporal", color: "#d95d39" },
+      { key: "Fr", label: "Grasa brazo der.", color: "#c54c32" },
+      { key: "Fl", label: "Grasa brazo izq.", color: "#e16b46" },
+      { key: "FR", label: "Grasa pierna der.", color: "#b9432e" },
+      { key: "FL", label: "Grasa pierna izq.", color: "#e37b57" },
+      { key: "FT", label: "Grasa tronco", color: "#d95d39" },
+      { key: "mW", label: "Músculo total", color: "#3f7d20" },
+      { key: "mr", label: "Músculo brazo der.", color: "#367d2b" },
+      { key: "ml", label: "Músculo brazo izq.", color: "#4d9a36" },
+      { key: "mR", label: "Músculo pierna der.", color: "#2f6f24" },
+      { key: "mL", label: "Músculo pierna izq.", color: "#5aa341" },
+      { key: "mT", label: "Músculo tronco", color: "#3f7d20" },
+      { key: "bW", label: "Masa ósea", color: "#8a7b4f" },
+      { key: "IF", label: "Grasa visceral", color: "#b7791f" },
+      { key: "rD", label: "DCI", color: "#5d6b35" },
+      { key: "rA", label: "Edad corporal", color: "#8a5a44" },
+      { key: "ww", label: "Agua corporal", color: "#3670a0" }
+    ];
+
+    const READING_NUMBER_KEYS = [
+      "Bt", "GE", "AG", "Hm", "AL", "Wk", "MI", "FW", "Fr", "Fl", "FR", "FL", "FT",
+      "mW", "mr", "ml", "mR", "mL", "mT", "bW", "IF", "rD", "rA", "ww"
+    ];
+
+    const BACKUP_HEADERS = [
+      "record_type", "app", "version", "exported_at", "status", "slot", "display_name",
+      "model", "birth_date", "gender_code", "gender", "body_type_code", "body_type",
+      "height_cm", "activity_code", "activity", "selected_slot", "selected_metric",
+      "all_profiles", "table_mode", "theme", "date_from", "date_to", "y_zoom", "pinned_reading_key",
+      "deleted_key", "timestamp", "date_text", "time_text", "source_path", "line_number",
+      "original_slot", "notes", ...READING_NUMBER_KEYS
+    ];
+
+    const SEGMENTS = [
+      { title: "Brazo derecho", fat: "Fr", muscle: "mr" },
+      { title: "Brazo izquierdo", fat: "Fl", muscle: "ml" },
+      { title: "Pierna derecha", fat: "FR", muscle: "mR" },
+      { title: "Pierna izquierda", fat: "FL", muscle: "mL" },
+      { title: "Tronco", fat: "FT", muscle: "mT" }
+    ];
+
+    const state = {
+      profiles: [],
+      readings: [],
+      excludedReadings: [],
+      selectedSlot: null,
+      selectedMetric: "Wk",
+      allProfiles: false,
+      sourceLabel: "",
+      dateFrom: "",
+      dateTo: "",
+      dateMin: "",
+      dateMax: "",
+      theme: "light",
+      chartPoints: [],
+      deletedKeys: [],
+      yZoom: 40,
+      pinnedReadingKey: "",
+      tableMode: "valid",
+      saveTimer: null,
+      serverSaveAvailable: false
+    };
+
+    const els = {
+      folderInput: document.getElementById("folderInput"),
+      fileInput: document.getElementById("fileInput"),
+      dataMenu: document.getElementById("dataMenu"),
+      importButton: document.getElementById("importButton"),
+      importFilesButton: document.getElementById("importFilesButton"),
+      exportButton: document.getElementById("exportButton"),
+      themeToggle: document.getElementById("themeToggle"),
+      addReadingButton: document.getElementById("addReadingButton"),
+      tableTabs: document.getElementById("tableTabs"),
+      manualDialog: document.getElementById("manualDialog"),
+      manualForm: document.getElementById("manualForm"),
+      manualSlot: document.getElementById("manualSlot"),
+      cancelManualButton: document.getElementById("cancelManualButton"),
+      statusLine: document.getElementById("statusLine"),
+      emptyState: document.getElementById("emptyState"),
+      dashboard: document.getElementById("dashboard"),
+      profileStrip: document.getElementById("profileStrip"),
+      summaryGrid: document.getElementById("summaryGrid"),
+      profilePanel: document.getElementById("profilePanel"),
+      metricSelect: document.getElementById("metricSelect"),
+      dateFrom: document.getElementById("dateFrom"),
+      dateTo: document.getElementById("dateTo"),
+      resetDatesButton: document.getElementById("resetDatesButton"),
+      yZoomRange: document.getElementById("yZoomRange"),
+      dateWindowStart: document.getElementById("dateWindowStart"),
+      dateWindowSize: document.getElementById("dateWindowSize"),
+      chartTitle: document.getElementById("chartTitle"),
+      chartMeta: document.getElementById("chartMeta"),
+      trendCanvas: document.getElementById("trendCanvas"),
+      chartTooltip: document.getElementById("chartTooltip"),
+      segmentPanel: document.getElementById("segmentPanel"),
+      readingsBody: document.getElementById("readingsBody")
+    };
+
+    init();
+
+    async function init() {
+      applyTheme();
+      els.importButton.addEventListener("click", () => {
+        closeDataMenu();
+        els.folderInput.click();
+      });
+      els.importFilesButton.addEventListener("click", () => {
+        closeDataMenu();
+        els.fileInput.click();
+      });
+      els.exportButton.addEventListener("click", () => {
+        closeDataMenu();
+        exportCsv();
+      });
+      els.themeToggle.addEventListener("click", () => {
+        state.theme = state.theme === "dark" ? "light" : "dark";
+        applyTheme();
+        saveState();
+        drawChart();
+      });
+      els.addReadingButton.addEventListener("click", openManualDialog);
+      els.cancelManualButton.addEventListener("click", closeManualDialog);
+      els.manualForm.addEventListener("submit", event => {
+        event.preventDefault();
+        addManualReading();
+      });
+      els.dateFrom.addEventListener("change", () => {
+        state.dateFrom = els.dateFrom.value;
+        normalizeDateRange();
+        saveState();
+        render();
+      });
+      els.dateTo.addEventListener("change", () => {
+        state.dateTo = els.dateTo.value;
+        normalizeDateRange();
+        saveState();
+        render();
+      });
+      els.resetDatesButton.addEventListener("click", () => {
+        state.dateFrom = state.dateMin;
+        state.dateTo = state.dateMax;
+        saveState();
+        render();
+      });
+      els.yZoomRange.addEventListener("input", () => {
+        state.yZoom = Number(els.yZoomRange.value);
+        saveState();
+        drawChart();
+      });
+      els.dateWindowStart.addEventListener("input", () => {
+        updateDateRangeFromTimeline();
+      });
+      els.dateWindowSize.addEventListener("input", () => {
+        updateDateRangeFromTimeline();
+      });
+      els.trendCanvas.addEventListener("mousemove", handleChartHover);
+      els.trendCanvas.addEventListener("click", handleChartClick);
+      els.trendCanvas.addEventListener("mouseleave", hideChartTooltip);
+      els.folderInput.addEventListener("change", async event => {
+        const files = Array.from(event.target.files || []);
+        if (files.length) {
+          await loadFromFiles(files);
+        }
+        event.target.value = "";
+      });
+      els.fileInput.addEventListener("change", async event => {
+        const files = Array.from(event.target.files || []);
+        if (files.length) {
+          await loadFromFiles(files);
+        }
+        event.target.value = "";
+      });
+      window.addEventListener("resize", () => drawChart());
+      if (await loadServerState()) {
+        setStatus(`Cargadas ${state.readings.length} lecturas validas desde archivo local. ${state.excludedReadings.length} fuera de rango disponible${state.excludedReadings.length === 1 ? "" : "s"}.`);
+        render();
+      } else if (loadSavedState()) {
+        setStatus(`Cargadas ${state.readings.length} lecturas validas desde historico del navegador. ${state.excludedReadings.length} fuera de rango disponible${state.excludedReadings.length === 1 ? "" : "s"}.`);
+        saveState();
+        render();
+      } else {
+        loadSampleData();
+      }
+    }
+
+    function applyTheme() {
+      document.body.dataset.theme = state.theme === "dark" ? "dark" : "light";
+      if (els.themeToggle) {
+        els.themeToggle.textContent = state.theme === "dark" ? "Modo claro" : "Modo oscuro";
+      }
+    }
+
+    function closeDataMenu() {
+      if (els.dataMenu) els.dataMenu.open = false;
+    }
+
+    async function loadSampleData() {
+      setStatus("Buscando datos de muestra en el proyecto...");
+      const loaded = [];
+      for (const path of SAMPLE_FILES) {
+        try {
+          const response = await fetch(path, { cache: "no-store" });
+          if (response.ok) {
+            loaded.push({
+              path,
+              name: path.split("/").pop(),
+              text: await response.text()
+            });
+          }
+        } catch (error) {
+          // Loading through file:// can fail; folder import remains available.
+        }
+      }
+      if (!loaded.length) {
+        clearData("No se pudo cargar la muestra desde servidor local.");
+        return;
+      }
+      applyParsedFiles(loaded, "muestra del proyecto");
+    }
+
+    async function loadFromFiles(files) {
+      setStatus(`Leyendo ${files.length} fichero${files.length === 1 ? "" : "s"}...`);
+      const loaded = [];
+      for (const file of files) {
+        const name = file.name.toUpperCase();
+        if (!name.endsWith(".CSV") && !name.endsWith(".TXT")) continue;
+        loaded.push({
+          path: file.webkitRelativePath || file.name,
+          name: file.name,
+          text: await file.text()
+        });
+      }
+      const backupFile = loaded.find(file => isBackupCsv(file.text));
+      if (backupFile) {
+        restoreBackupCsv(backupFile.text, backupFile.name);
+        return;
+      }
+      applyParsedFiles(loaded, "carpeta importada");
+    }
+
+    function applyParsedFiles(files, sourceLabel) {
+      const profiles = [];
+      const readings = [];
+      const warnings = [];
+
+      for (const file of files) {
+        const name = file.name.toUpperCase();
+        if (/^PROF[1-4]\.CSV$/.test(name)) {
+          const slot = Number(name.match(/\d/)[0]);
+          const line = firstDataLine(file.text);
+          if (line) {
+            profiles.push(normalizeProfile(slot, parseTanitaLine(line), file.path));
+          }
+        }
+        if (/^DATA[1-4]\.CSV$/.test(name)) {
+          const slot = Number(name.match(/\d/)[0]);
+          const lines = file.text.split(/\r?\n/).filter(line => line.trim());
+          lines.forEach((line, index) => {
+            try {
+              readings.push(normalizeReading(slot, parseTanitaLine(line), file.path, index + 1));
+            } catch (error) {
+              warnings.push(`${file.name}:${index + 1}`);
+            }
+          });
+        }
+      }
+
+      readings.sort((a, b) => a.timestamp - b.timestamp);
+      profiles.sort((a, b) => a.slot - b.slot);
+      const mergedProfiles = mergeProfiles(state.profiles, profiles);
+      const mergedReadings = [...state.readings, ...state.excludedReadings, ...readings];
+      mergedReadings.forEach(reading => {
+        reading.notes = [];
+      });
+      reconcileReadingSlots(mergedReadings, mergedProfiles);
+      const uniqueReadings = deduplicateReadings(mergedReadings)
+        .filter(reading => !state.deletedKeys.includes(makeReadingKey(reading)));
+      state.profiles = mergedProfiles;
+      rebuildReadingSets(uniqueReadings);
+      state.allProfiles = false;
+      state.sourceLabel = sourceLabel;
+
+      if (!state.readings.length) {
+        clearData("No se encontraron ficheros DATA*.CSV con lecturas.");
+        return;
+      }
+
+      const warningText = warnings.length ? ` ${warnings.length} línea(s) no pudieron parsearse.` : "";
+      const excludedText = state.excludedReadings.length ? ` ${state.excludedReadings.length} fuera de rango disponible${state.excludedReadings.length === 1 ? "" : "s"}.` : "";
+      setStatus(`Cargadas ${state.readings.length} lecturas validas desde ${sourceLabel}.${excludedText}${warningText}`);
+      saveState();
+      render();
+    }
+
+    function clearData(message) {
+      state.profiles = [];
+      state.readings = [];
+      state.excludedReadings = [];
+      state.selectedSlot = null;
+      state.sourceLabel = "";
+      state.dateFrom = "";
+      state.dateTo = "";
+      state.dateMin = "";
+      state.dateMax = "";
+      state.chartPoints = [];
+      setStatus(`${message} Usa Importar GRAPHV1 para seleccionar la tarjeta.`);
+      render();
+    }
+
+    function firstDataLine(text) {
+      return text.split(/\r?\n/).find(line => line.trim()) || "";
+    }
+
+    function parseTanitaLine(line) {
+      const tokens = splitCsvLine(line.trim()).map(token => token.trim());
+      if (tokens[0] && tokens[0].startsWith("{")) {
+        tokens[0] = tokens[0].slice(1);
+      }
+      const values = {};
+      const prefix = [];
+      for (let i = 0; i < tokens.length - 1; i += 2) {
+        const key = tokens[i];
+        const value = unquote(tokens[i + 1]);
+        if (PREFIX_CODES.has(key)) {
+          prefix.push([key, value]);
+        } else {
+          values[key] = value;
+        }
+      }
+      return { values, prefix, raw: line };
+    }
+
+    function splitCsvLine(line) {
+      const result = [];
+      let current = "";
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i += 1) {
+        const char = line[i];
+        if (char === "\"") {
+          if (inQuotes && line[i + 1] === "\"") {
+            current += "\"";
+            i += 1;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          result.push(current);
+          current = "";
+        } else {
+          current += char;
+        }
+      }
+      result.push(current);
+      return result;
+    }
+
+    function unquote(value) {
+      if (value.startsWith("\"") && value.endsWith("\"")) {
+        return value.slice(1, -1).replaceAll("\"\"", "\"");
+      }
+      return value;
+    }
+
+    function normalizeProfile(slot, parsed, sourcePath) {
+      const v = parsed.values;
+      return {
+        slot,
+        sourcePath,
+        raw: v,
+        model: v.MO || "",
+        birthDate: v.DB || "",
+        genderCode: Number(v.GE),
+        gender: formatGender(v.GE),
+        bodyTypeCode: Number(v.Bt),
+        bodyType: formatBodyType(v.Bt),
+        heightCm: toNumber(v.Hm),
+        activityCode: Number(v.AL),
+        activity: formatActivity(v.AL),
+        checksum: v.CS || ""
+      };
+    }
+
+    function normalizeReading(slot, parsed, sourcePath, lineNumber) {
+      const v = parsed.values;
+      const timestamp = parseDateTime(v.DT, v.Ti);
+      const numbers = {};
+      for (const key of Object.keys(FIELD_DEFS)) {
+        if (v[key] !== undefined && !["MO", "DT", "Ti", "CS"].includes(key)) {
+          numbers[key] = toNumber(v[key]);
+        }
+      }
+      return {
+        slot,
+        originalSlot: slot,
+        sourcePath,
+        lineNumber,
+        raw: v,
+        timestamp,
+        dateText: v.DT || "",
+        timeText: v.Ti || "",
+        model: v.MO || "",
+        notes: [],
+        ...numbers
+      };
+    }
+
+    function mergeProfiles(existingProfiles, importedProfiles) {
+      const bySlot = new Map(existingProfiles.map(profile => [profile.slot, { ...profile }]));
+      for (const imported of importedProfiles) {
+        const previous = bySlot.get(imported.slot);
+        bySlot.set(imported.slot, {
+          ...imported,
+          displayName: previous?.displayName || imported.displayName || ""
+        });
+      }
+      return Array.from(bySlot.values()).sort((a, b) => a.slot - b.slot);
+    }
+
+    function loadSavedState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        return applyStatePayload(JSON.parse(raw), "historico del navegador");
+      } catch (error) {
+        console.warn("No se pudo cargar el historico local", error);
+        return false;
+      }
+    }
+
+    async function loadServerState() {
+      try {
+        const response = await fetch("/api/state", { cache: "no-store" });
+        if (!response.ok) return false;
+        const payload = await response.json();
+        if (!payload.ok || !payload.state) return false;
+        state.serverSaveAvailable = true;
+        return applyStatePayload(payload.state, "archivo local");
+      } catch (error) {
+        state.serverSaveAvailable = false;
+        return false;
+      }
+    }
+
+    function buildStatePayload() {
+      return {
+        version: 1,
+        savedAt: new Date().toISOString(),
+        profiles: state.profiles,
+        readings: state.readings.map(serializeReading),
+        excludedReadings: state.excludedReadings.map(serializeReading),
+        deletedKeys: state.deletedKeys,
+        selectedSlot: state.selectedSlot,
+        selectedMetric: state.selectedMetric,
+        allProfiles: false,
+        sourceLabel: "historico local",
+        dateFrom: state.dateFrom,
+        dateTo: state.dateTo,
+        theme: state.theme,
+        yZoom: state.yZoom,
+        pinnedReadingKey: state.pinnedReadingKey,
+        tableMode: state.tableMode
+      };
+    }
+
+    function applyStatePayload(saved, sourceLabel) {
+      state.profiles = Array.isArray(saved.profiles) ? saved.profiles : [];
+      state.readings = Array.isArray(saved.readings) ? saved.readings.map(deserializeReading) : [];
+      state.excludedReadings = Array.isArray(saved.excludedReadings) ? saved.excludedReadings.map(deserializeReading) : [];
+      state.deletedKeys = Array.isArray(saved.deletedKeys) ? saved.deletedKeys : [];
+      state.selectedSlot = saved.selectedSlot || pickInitialSlot(state.profiles, [...state.readings, ...state.excludedReadings]);
+      state.selectedMetric = saved.selectedMetric || state.selectedMetric;
+      state.allProfiles = false;
+      state.sourceLabel = sourceLabel || saved.sourceLabel || "historico local";
+      state.theme = saved.theme === "dark" ? "dark" : "light";
+      applyTheme();
+      state.yZoom = Number.isFinite(saved.yZoom) ? saved.yZoom : state.yZoom;
+      state.pinnedReadingKey = saved.pinnedReadingKey || "";
+      state.tableMode = saved.tableMode === "excluded" ? "excluded" : "valid";
+      setDateBounds([...state.readings, ...state.excludedReadings]);
+      if (saved.dateFrom && saved.dateFrom >= state.dateMin && saved.dateFrom <= state.dateMax) state.dateFrom = saved.dateFrom;
+      if (saved.dateTo && saved.dateTo >= state.dateMin && saved.dateTo <= state.dateMax) state.dateTo = saved.dateTo;
+      normalizeDateRange();
+      return state.readings.length > 0 || state.excludedReadings.length > 0;
+    }
+
+    function saveState() {
+      const payload = buildStatePayload();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      queueServerSave(payload);
+    }
+
+    function queueServerSave(payload) {
+      window.clearTimeout(state.saveTimer);
+      state.saveTimer = window.setTimeout(() => postState(payload), 400);
+    }
+
+    async function postState(payload) {
+      try {
+        const response = await fetch("/api/state", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        state.serverSaveAvailable = response.ok;
+      } catch (error) {
+        state.serverSaveAvailable = false;
+      }
+    }
+
+    function serializeReading(reading) {
+      return {
+        ...reading,
+        timestamp: reading.timestamp instanceof Date ? reading.timestamp.toISOString() : reading.timestamp
+      };
+    }
+
+    function deserializeReading(reading) {
+      return {
+        ...reading,
+        timestamp: new Date(reading.timestamp),
+        notes: Array.isArray(reading.notes) ? reading.notes : []
+      };
+    }
+
+    function parseDateTime(dateText, timeText) {
+      const [day, month, year] = String(dateText || "").split("/").map(Number);
+      const [hour = 0, minute = 0, second = 0] = String(timeText || "00:00:00").split(":").map(Number);
+      if (!year || !month || !day) return new Date(NaN);
+      return new Date(year, month - 1, day, hour, minute, second);
+    }
+
+    function parseInputDateTime(dateValue, timeValue) {
+      const [year, month, day] = String(dateValue || "").split("-").map(Number);
+      const [hour = 0, minute = 0, second = 0] = String(timeValue || "00:00").split(":").map(Number);
+      if (!year || !month || !day) return new Date(NaN);
+      return new Date(year, month - 1, day, hour, minute, second);
+    }
+
+    function dateTextFromIso(dateValue) {
+      const [year, month, day] = String(dateValue || "").split("-");
+      return year && month && day ? `${day}/${month}/${year}` : "";
+    }
+
+    function normalizeTimeText(timeValue) {
+      const parts = String(timeValue || "").split(":");
+      const hour = parts[0] || "00";
+      const minute = parts[1] || "00";
+      const second = parts[2] || "00";
+      return `${hour.padStart(2, "0")}:${minute.padStart(2, "0")}:${second.padStart(2, "0")}`;
+    }
+
+    function ageAt(birthDateText, date) {
+      if (!birthDateText || !date || !Number.isFinite(date.getTime())) return null;
+      const [day, month, year] = String(birthDateText).split("/").map(Number);
+      if (!day || !month || !year) return null;
+      let age = date.getFullYear() - year;
+      const birthdayPassed = date.getMonth() + 1 > month || (date.getMonth() + 1 === month && date.getDate() >= day);
+      if (!birthdayPassed) age -= 1;
+      return age;
+    }
+
+    function toNumber(value) {
+      const number = Number(String(value ?? "").replace(",", "."));
+      return Number.isFinite(number) ? number : null;
+    }
+
+    function formNumber(data, key) {
+      const raw = String(data.get(key) ?? "").trim();
+      if (!raw) return null;
+      return toNumber(raw);
+    }
+
+    function reconcileReadingSlots(readings, profiles) {
+      for (const reading of readings) {
+        const match = profiles.find(profile =>
+          Number.isFinite(reading.GE) &&
+          Number.isFinite(reading.Hm) &&
+          Number.isFinite(reading.Bt) &&
+          profile.genderCode === reading.GE &&
+          profile.bodyTypeCode === reading.Bt &&
+          Math.abs(profile.heightCm - reading.Hm) < 0.2
+        );
+        if (match) reading.slot = match.slot;
+      }
+    }
+
+    function deduplicateReadings(readings) {
+      const seen = new Set();
+      const unique = [];
+      for (const reading of readings) {
+        const key = makeReadingKey(reading);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        unique.push(reading);
+      }
+      return unique.sort((a, b) => a.timestamp - b.timestamp);
+    }
+
+    function makeReadingKey(reading) {
+      return [
+        reading.slot,
+        reading.timestamp instanceof Date ? reading.timestamp.getTime() : new Date(reading.timestamp).getTime(),
+        reading.Wk,
+        reading.MI,
+        reading.FW,
+        reading.mW,
+        reading.IF,
+        reading.ww
+      ].join("|");
+    }
+
+    function setDateBounds(readings) {
+      const validDates = readings
+        .map(reading => dateInputValue(reading.timestamp))
+        .filter(Boolean)
+        .sort();
+      state.dateMin = validDates[0] || "";
+      state.dateMax = validDates.at(-1) || "";
+      state.dateFrom = state.dateMin;
+      state.dateTo = state.dateMax;
+    }
+
+    function normalizeDateRange() {
+      if (state.dateFrom && state.dateTo && state.dateFrom > state.dateTo) {
+        const previousFrom = state.dateFrom;
+        state.dateFrom = state.dateTo;
+        state.dateTo = previousFrom;
+      }
+      if (state.dateMin && state.dateFrom < state.dateMin) state.dateFrom = state.dateMin;
+      if (state.dateMax && state.dateTo > state.dateMax) state.dateTo = state.dateMax;
+    }
+
+    function dateRangeLabel() {
+      if (!state.dateFrom && !state.dateTo) return "sin filtro";
+      if (state.dateFrom === state.dateMin && state.dateTo === state.dateMax) return "rango completo";
+      return `${state.dateFrom || "inicio"} a ${state.dateTo || "fin"}`;
+    }
+
+    function markSuspectWeights(readings) {
+      const bySlot = groupBy(readings, reading => reading.slot);
+      for (const slotReadings of bySlot.values()) {
+        const weights = slotReadings.map(reading => reading.Wk).filter(Number.isFinite).sort((a, b) => a - b);
+        if (weights.length < 5) continue;
+        const median = weights[Math.floor(weights.length / 2)];
+        const threshold = Math.max(15, median * 0.18);
+        for (const reading of slotReadings) {
+          if (Number.isFinite(reading.Wk) && Math.abs(reading.Wk - median) > threshold) {
+            reading.notes.push("peso fuera de serie");
+          }
+        }
+      }
+    }
+
+    function rebuildReadingSets(readings) {
+      readings.forEach(reading => {
+        reading.notes = [];
+      });
+      markSuspectWeights(readings);
+      state.excludedReadings = readings.filter(reading => reading.notes.length);
+      state.readings = readings.filter(reading => !reading.notes.length);
+      const availableReadings = [...state.readings, ...state.excludedReadings];
+      state.selectedSlot = state.selectedSlot && availableReadings.some(reading => reading.slot === state.selectedSlot)
+        ? state.selectedSlot
+        : pickInitialSlot(state.profiles, availableReadings);
+      setDateBounds(availableReadings);
+      normalizeDateRange();
+    }
+
+    function render() {
+      const hasData = state.readings.length > 0 || state.excludedReadings.length > 0;
+      els.emptyState.hidden = hasData;
+      els.dashboard.hidden = !hasData;
+      els.exportButton.disabled = !hasData;
+      if (!hasData) return;
+
+      renderProfiles();
+      renderSummary();
+      renderProfilePanel();
+      renderMetricButtons();
+      renderDateControls();
+      renderBodySegments();
+      renderTable();
+      drawChart();
+    }
+
+    function renderProfiles() {
+      const slots = slotsWithData();
+      els.profileStrip.innerHTML = slots.map(slot => {
+        const profile = findProfile(slot);
+        const count = state.readings.filter(reading => reading.slot === slot).length;
+        const excludedCount = state.excludedReadings.filter(reading => reading.slot === slot).length;
+        const active = slot === state.selectedSlot ? " active" : "";
+        const excludedText = excludedCount ? ` + ${excludedCount} fuera` : "";
+        return `<button class="segment${active}" type="button" data-slot="${slot}">${escapeHtml(profileName(slot))}<br><span class="metric-sub">${profile ? profile.gender : "Sin perfil"} - ${count} lecturas${excludedText}</span></button>`;
+      }).join("");
+      els.profileStrip.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          state.selectedSlot = Number(button.dataset.slot);
+          state.allProfiles = false;
+          saveState();
+          render();
+        });
+      });
+    }
+
+    function renderSummary() {
+      const validForProfile = state.readings.filter(reading => reading.slot === state.selectedSlot);
+      const latest = validForProfile.at(-1);
+      const rows = [
+        { label: "Lecturas validas", value: validForProfile.length, sub: profileName(state.selectedSlot) },
+        { label: "Ultima lectura", value: latest ? formatDate(latest.timestamp) : "-", sub: latest ? formatDateTime(latest.timestamp) : "sin lecturas validas" }
+      ];
+      els.summaryGrid.innerHTML = rows.map(row => `
+        <article class="metric-card">
+          <div class="metric-label">${escapeHtml(row.label)}</div>
+          <div class="metric-value">${escapeHtml(String(row.value))}</div>
+          <div class="metric-sub">${escapeHtml(row.sub)}</div>
+        </article>
+      `).join("");
+    }
+
+    function renderProfilePanel() {
+      const profile = findProfile(state.selectedSlot);
+      const latest = panelReading();
+      const isPinned = latest && state.pinnedReadingKey && makeReadingKey(latest) === state.pinnedReadingKey;
+      const details = profile ? [
+        ["Modelo", profile.model || "-"],
+        ["Nacimiento", profile.birthDate || "-"],
+        ["Sexo", profile.gender],
+        ["Modo", profile.bodyType],
+        ["Altura", `${formatNumber(profile.heightCm, 1)} cm`],
+        ["Actividad", profile.activity]
+      ] : [["Perfil", "Sin datos PROF*.CSV"]];
+
+      const latestStats = latest ? [
+        ["Peso", formatUnit(latest.Wk, "kg", 1)],
+        ["IMC", formatNumber(latest.MI, 1)],
+        ["Grasa", formatUnit(latest.FW, "%", 1)],
+        ["Músculo", formatUnit(latest.mW, "kg", 1)],
+        ["Visceral", formatNumber(latest.IF, 0)],
+        ["Agua", formatUnit(latest.ww, "%", 1)],
+        ["Masa ósea", formatUnit(latest.bW, "kg", 1)],
+        ["DCI", formatUnit(latest.rD, "kcal", 0)],
+        ["Edad corporal", formatUnit(latest.rA, "años", 0)]
+      ] : [];
+
+      els.profilePanel.innerHTML = `
+        <h2>Perfil ${state.selectedSlot}</h2>
+        <label class="profile-name-field">
+          <span>Nombre visible</span>
+          <input id="profileNameInput" type="text" value="${escapeHtml(profileName(state.selectedSlot))}" placeholder="Perfil ${state.selectedSlot}">
+        </label>
+        <div class="profile-details">
+          ${details.map(([label, value]) => `<div class="detail-row"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}
+        </div>
+        <h2>${isPinned ? "Lectura seleccionada" : "Última lectura"}</h2>
+        <div class="profile-details">
+          <div class="detail-row"><span>Fecha</span><strong>${latest ? escapeHtml(formatDateTime(latest.timestamp)) : "-"}</strong></div>
+          <div class="detail-row"><span>Avisos</span><strong>${latest && latest.notes.length ? escapeHtml(latest.notes.join(", ")) : "Sin avisos"}</strong></div>
+          ${isPinned ? `<button class="ghost" id="clearPinnedReading" type="button">Volver a última lectura</button>` : ""}
+        </div>
+        <div class="latest-grid">
+          ${latestStats.map(([label, value]) => `
+            <div class="mini-stat">
+              <div class="metric-label">${escapeHtml(label)}</div>
+              <div class="value">${escapeHtml(value)}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+      const nameInput = document.getElementById("profileNameInput");
+      if (nameInput) {
+        nameInput.addEventListener("change", () => {
+          setProfileName(state.selectedSlot, nameInput.value.trim());
+        });
+      }
+      const clearPinnedButton = document.getElementById("clearPinnedReading");
+      if (clearPinnedButton) {
+        clearPinnedButton.addEventListener("click", () => {
+          state.pinnedReadingKey = "";
+          saveState();
+          render();
+        });
+      }
+    }
+
+    function renderMetricButtons() {
+      els.metricSelect.innerHTML = METRICS.map(metric => {
+        const active = metric.key === state.selectedMetric ? " active" : "";
+        return `<button class="segment${active}" type="button" data-metric="${metric.key}">${metric.label}</button>`;
+      }).join("");
+      els.metricSelect.querySelectorAll("button").forEach(button => {
+        button.addEventListener("click", () => {
+          state.selectedMetric = button.dataset.metric;
+          saveState();
+          render();
+        });
+      });
+    }
+
+    function renderDateControls() {
+      for (const input of [els.dateFrom, els.dateTo]) {
+        input.min = state.dateMin || "";
+        input.max = state.dateMax || "";
+      }
+      els.dateFrom.value = state.dateFrom || "";
+      els.dateTo.value = state.dateTo || "";
+      els.dateFrom.disabled = !state.dateMin;
+      els.dateTo.disabled = !state.dateMax;
+      els.resetDatesButton.disabled = !state.dateMin || (state.dateFrom === state.dateMin && state.dateTo === state.dateMax);
+      els.yZoomRange.value = String(state.yZoom);
+      const dates = timelineDates();
+      const startIndex = Math.max(0, dates.indexOf(state.dateFrom));
+      const endIndex = Math.max(startIndex, dates.indexOf(state.dateTo));
+      const windowSize = dates.length ? Math.max(1, endIndex - startIndex + 1) : 1;
+      const availableSize = dates.length ? Math.max(1, dates.length - startIndex) : 1;
+      els.dateWindowSize.min = "1";
+      els.dateWindowSize.max = String(availableSize);
+      els.dateWindowSize.value = String(Math.min(windowSize, availableSize));
+      els.dateWindowSize.disabled = dates.length < 2;
+      els.dateWindowStart.min = "0";
+      els.dateWindowStart.max = String(Math.max(0, dates.length - 1));
+      els.dateWindowStart.value = String(Math.min(startIndex, Math.max(0, dates.length - 1)));
+      els.dateWindowStart.disabled = dates.length < 2;
+    }
+
+    function timelineDates() {
+      const base = state.readings.filter(reading => reading.slot === state.selectedSlot);
+      return Array.from(new Set(base.map(reading => dateInputValue(reading.timestamp)).filter(Boolean))).sort();
+    }
+
+    function updateDateRangeFromTimeline() {
+      const dates = timelineDates();
+      if (!dates.length) return;
+      const start = clamp(Number(els.dateWindowStart.value) || 0, 0, Math.max(0, dates.length - 1));
+      const maxSize = Math.max(1, dates.length - start);
+      const size = clamp(Number(els.dateWindowSize.value) || maxSize, 1, maxSize);
+      state.dateFrom = dates[start];
+      state.dateTo = dates[start + size - 1] || dates.at(-1);
+      saveState();
+      render();
+    }
+
+    function renderBodySegments() {
+      const latest = panelReading();
+      if (!latest) {
+        els.segmentPanel.innerHTML = `<div class="body-composition"><div class="metric-label">No hay lecturas en el rango seleccionado.</div></div>`;
+        return;
+      }
+      const callout = (cssClass, title, fatKey, muscleKey) => `
+        <div class="segment-callout ${cssClass}">
+          <strong>${escapeHtml(title)}</strong>
+          <div class="segment-row"><span>Grasa</span><span class="segment-value">${formatNumber(latest[fatKey], 1)}</span><span class="segment-unit">%</span></div>
+          <div class="segment-row"><span>Musculo</span><span class="segment-value">${formatNumber(latest[muscleKey], 1)}</span><span class="segment-unit">kg</span></div>
+        </div>
+      `;
+      const profile = findProfile(latest.slot);
+      els.segmentPanel.innerHTML = `
+        <div class="body-composition">
+          <div class="chart-meta">Segmentos de la ultima lectura visible: ${escapeHtml(formatDateTime(latest.timestamp))}</div>
+          <div class="body-map ${profile?.genderCode === 2 ? "female" : "male"}" aria-label="Composicion segmental">
+            ${renderSilhouette(profile)}
+            ${callout("callout-left-arm", "Brazo izq.", "Fl", "ml")}
+            ${callout("callout-right-arm", "Brazo der.", "Fr", "mr")}
+            ${callout("callout-trunk", "Tronco", "FT", "mT")}
+            ${callout("callout-left-leg", "Pierna izq.", "FL", "mL")}
+            ${callout("callout-right-leg", "Pierna der.", "FR", "mR")}
+          </div>
+          <div class="analysis-bars">
+            ${renderGaugeBars(latest, profile)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSilhouette(profile) {
+      const isFemale = profile?.genderCode === 2;
+      const src = isFemale ? "assets/body-neutral-female.png" : "assets/body-neutral-male.png";
+      const alt = isFemale ? "Modelo corporal neutro femenino" : "Modelo corporal neutro masculino";
+      return `<img class="body-figure" src="${src}" alt="${alt}">`;
+    }
+
+    function renderGaugeBars(reading, profile) {
+      const gauges = [
+        buildGauge("IMC", reading.MI, "", 0, 45, [
+          { from: 0, to: 18.5, cls: "low" },
+          { from: 18.5, to: 25, cls: "good" },
+          { from: 25, to: 30, cls: "warn" },
+          { from: 30, to: 45, cls: "high" }
+        ]),
+        buildGauge("Grasa corporal", reading.FW, "%", 0, profile?.genderCode === 2 ? 50 : 40, bodyFatBands(profile, reading.AG)),
+        buildGauge("Agua corporal", reading.ww, "%", 0, 80, waterBands(profile)),
+        buildGauge("Grasa visceral", reading.IF, "", 0, 59, [
+          { from: 0, to: 12, cls: "good" },
+          { from: 12, to: 59, cls: "high" }
+        ])
+      ];
+      return gauges.map(renderGauge).join("");
+    }
+
+    function buildGauge(label, value, unit, min, max, bands) {
+      return { label, value, unit, min, max, bands };
+    }
+
+    function bodyFatBands(profile, ageValue) {
+      const genderCode = profile?.genderCode || 1;
+      const age = Number.isFinite(ageValue) ? ageValue : 40;
+      if (genderCode === 2) {
+        if (age < 40) return fatBandSet(21, 33, 39, 50);
+        if (age < 60) return fatBandSet(23, 34, 40, 50);
+        return fatBandSet(24, 36, 42, 50);
+      }
+      if (age < 40) return fatBandSet(8, 19, 25, 40);
+      if (age < 60) return fatBandSet(11, 21, 28, 40);
+      return fatBandSet(13, 25, 30, 40);
+    }
+
+    function fatBandSet(healthyStart, overfatStart, obeseStart, max) {
+      return [
+        { from: 0, to: healthyStart, cls: "low" },
+        { from: healthyStart, to: overfatStart, cls: "good" },
+        { from: overfatStart, to: obeseStart, cls: "warn" },
+        { from: obeseStart, to: max, cls: "high" }
+      ];
+    }
+
+    function waterBands(profile) {
+      const healthyStart = profile?.genderCode === 2 ? 45 : 50;
+      const healthyEnd = profile?.genderCode === 2 ? 60 : 65;
+      return [
+        { from: 0, to: healthyStart, cls: "low" },
+        { from: healthyStart, to: healthyEnd, cls: "good" },
+        { from: healthyEnd, to: 80, cls: "low" }
+      ];
+    }
+
+    function renderGauge(gauge) {
+      const marker = scalePct(gauge.value, gauge.min, gauge.max);
+      return `
+        <div class="gauge-card">
+          <div class="gauge-title"><span>${escapeHtml(gauge.label)}</span><strong>${escapeHtml(formatUnit(gauge.value, gauge.unit, gauge.label === "Grasa visceral" ? 0 : 1))}</strong></div>
+          <div class="gauge-track">
+            ${gauge.bands.map(band => `<div class="gauge-band ${band.cls}" style="left:${scalePct(band.from, gauge.min, gauge.max)}%;width:${scaleWidth(band.from, band.to, gauge.min, gauge.max)}%"></div>`).join("")}
+            <div class="gauge-marker" style="left:${marker}%"></div>
+          </div>
+          <div class="gauge-scale"><span>${formatNumber(gauge.min, 0)}</span><span>${formatNumber(gauge.max, 0)}</span></div>
+        </div>
+      `;
+    }
+
+    function scalePct(value, min, max) {
+      return clamp(((value - min) / Math.max(1, max - min)) * 100, 0, 100);
+    }
+
+    function scaleWidth(from, to, min, max) {
+      return Math.max(0, scalePct(to, min, max) - scalePct(from, min, max));
+    }
+
+    function renderSegments() {
+      const latest = selectedReadings().at(-1);
+      if (!latest) {
+        els.segmentPanel.innerHTML = "";
+        return;
+      }
+      els.segmentPanel.innerHTML = SEGMENTS.map(segment => {
+        const fat = latest[segment.fat];
+        const muscle = latest[segment.muscle];
+        const fatWidth = clamp((fat || 0) / 45 * 100, 0, 100);
+        const muscleWidth = clamp((muscle || 0) / 12 * 100, 0, 100);
+        return `
+          <div class="segment-item">
+            <strong>${escapeHtml(segment.title)}</strong>
+            <div class="metric-label">Grasa ${formatUnit(fat, "%", 1)}</div>
+            <div class="bar-track"><div class="bar-fill alt" style="width:${fatWidth}%"></div></div>
+            <div class="metric-label">Músculo ${formatUnit(muscle, "kg", 1)}</div>
+            <div class="bar-track"><div class="bar-fill" style="width:${muscleWidth}%"></div></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderTable() {
+      renderTableTabs();
+      const rows = tableReadings().slice().reverse();
+      if (!rows.length) {
+        els.readingsBody.innerHTML = `<tr><td colspan="12">No hay lecturas en esta vista.</td></tr>`;
+        return;
+      }
+      els.readingsBody.innerHTML = rows.map(reading => `
+        <tr class="${reading.notes.length ? "flagged" : ""}">
+          <td>${escapeHtml(profileName(reading.slot))}</td>
+          <td>${escapeHtml(formatDateTime(reading.timestamp))}</td>
+          <td>${formatNumber(reading.Wk, 1)}</td>
+          <td>${formatNumber(reading.MI, 1)}</td>
+          <td>${formatNumber(reading.FW, 1)}</td>
+          <td>${formatNumber(reading.mW, 1)}</td>
+          <td>${formatNumber(reading.IF, 0)}</td>
+          <td>${formatNumber(reading.ww, 1)}</td>
+          <td>${formatNumber(reading.rD, 0)}</td>
+          <td>${formatNumber(reading.rA, 0)}</td>
+          <td>${reading.notes.length ? `<span class="tag">${escapeHtml(reading.notes.join(", "))}</span>` : ""}</td>
+          <td><button class="danger" type="button" data-delete-key="${escapeHtml(makeReadingKey(reading))}">Borrar</button></td>
+        </tr>
+      `).join("");
+      els.readingsBody.querySelectorAll("[data-delete-key]").forEach(button => {
+        button.addEventListener("click", () => deleteReading(button.dataset.deleteKey));
+      });
+    }
+
+    function renderTableTabs() {
+      const validCount = state.readings.filter(reading => reading.slot === state.selectedSlot).length;
+      const excludedCount = state.excludedReadings.filter(reading => reading.slot === state.selectedSlot).length;
+      const tabs = [
+        { key: "valid", label: `Válidas (${validCount})` },
+        { key: "excluded", label: `Fuera de rango (${excludedCount})` }
+      ];
+      els.tableTabs.innerHTML = tabs.map(tab => `
+        <button class="${state.tableMode === tab.key ? "active" : ""}" type="button" data-table-mode="${tab.key}">
+          ${escapeHtml(tab.label)}
+        </button>
+      `).join("");
+      els.tableTabs.querySelectorAll("[data-table-mode]").forEach(button => {
+        button.addEventListener("click", () => {
+          state.tableMode = button.dataset.tableMode;
+          saveState();
+          render();
+        });
+      });
+    }
+
+    function tableReadings() {
+      const source = state.tableMode === "excluded" ? state.excludedReadings : state.readings;
+      return filteredReadings(source);
+    }
+
+    function deleteReading(key) {
+      if (!key) return;
+      if (!window.confirm("¿Borrar esta lectura del historico local?")) return;
+      if (!state.deletedKeys.includes(key)) state.deletedKeys.push(key);
+      state.readings = state.readings.filter(reading => makeReadingKey(reading) !== key);
+      state.excludedReadings = state.excludedReadings.filter(reading => makeReadingKey(reading) !== key);
+      setDateBounds([...state.readings, ...state.excludedReadings]);
+      normalizeDateRange();
+      saveState();
+      render();
+    }
+
+    function drawChart() {
+      const canvas = els.trendCanvas;
+      const parent = canvas.parentElement;
+      const rect = parent.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(320, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(260, Math.floor(rect.height * dpr));
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const width = rect.width;
+      const height = rect.height;
+      ctx.clearRect(0, 0, width, height);
+      state.chartPoints = [];
+      hideChartTooltip();
+
+      const metric = METRICS.find(item => item.key === state.selectedMetric) || METRICS[0];
+      const rows = selectedReadings().filter(reading => Number.isFinite(reading[metric.key]) && Number.isFinite(reading.timestamp.getTime()));
+      const unit = FIELD_DEFS[metric.key]?.unit || "";
+      els.chartTitle.textContent = `${metric.label}${unit ? ` (${unit})` : ""}`;
+      els.chartMeta.textContent = rows.length ? `${rows.length} puntos - ${formatDate(rows[0].timestamp)} a ${formatDate(rows.at(-1).timestamp)}` : "Sin puntos para esta métrica";
+
+      const pad = { top: 20, right: 24, bottom: 42, left: 54 };
+      const plotW = width - pad.left - pad.right;
+      const plotH = height - pad.top - pad.bottom;
+      drawGrid(ctx, pad, plotW, plotH, width, height);
+
+      if (!rows.length || plotW <= 0 || plotH <= 0) {
+        drawCenteredText(ctx, "Sin datos", width, height);
+        return;
+      }
+
+      const values = rows.map(row => row[metric.key]);
+      let min = Math.min(...values);
+      let max = Math.max(...values);
+      if (min === max) {
+        min -= 1;
+        max += 1;
+      }
+      const rawSpan = Math.max(0.1, max - min);
+      const center = (min + max) / 2;
+      const zoom = clamp(state.yZoom, 0, 100) / 100;
+      const spanMultiplier = 2.7 - zoom * 1.55;
+      const paddedSpan = rawSpan * spanMultiplier;
+      min = center - paddedSpan / 2;
+      max = center + paddedSpan / 2;
+
+      const times = rows.map(row => row.timestamp.getTime());
+      const minTime = Math.min(...times);
+      const maxTime = Math.max(...times);
+      const timeSpan = Math.max(1, maxTime - minTime);
+
+      const x = row => pad.left + ((row.timestamp.getTime() - minTime) / timeSpan) * plotW;
+      const y = row => pad.top + (1 - ((row[metric.key] - min) / (max - min))) * plotH;
+
+      ctx.strokeStyle = metric.color;
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      rows.forEach((row, index) => {
+        const px = x(row);
+        const py = y(row);
+        if (index === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+
+      rows.forEach(row => {
+        const point = { x: x(row), y: y(row), row, metric };
+        state.chartPoints.push(point);
+        const pinned = makeReadingKey(row) === state.pinnedReadingKey;
+        const colors = chartThemeColors();
+        ctx.beginPath();
+        ctx.fillStyle = row.notes.length ? colors.danger : metric.color;
+        ctx.arc(point.x, point.y, pinned ? 5.5 : row.notes.length ? 4.5 : 3.2, 0, Math.PI * 2);
+        ctx.fill();
+        if (pinned) {
+          ctx.strokeStyle = colors.pin;
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+      });
+
+      drawAxisLabels(ctx, rows, min, max, pad, plotW, plotH);
+    }
+
+    function chartThemeColors() {
+      const dark = state.theme === "dark";
+      return {
+        bg: dark ? "#182226" : "#ffffff",
+        grid: dark ? "#314149" : "#e5ecef",
+        axis: dark ? "#5c7078" : "#b9c7cd",
+        label: dark ? "#a7b5bb" : "#65727d",
+        pin: dark ? "#edf4f6" : "#172026",
+        danger: dark ? "#ff8a7c" : "#b42318"
+      };
+    }
+
+    function drawGrid(ctx, pad, plotW, plotH, width, height) {
+      const colors = chartThemeColors();
+      ctx.fillStyle = colors.bg;
+      ctx.fillRect(0, 0, width, height);
+      ctx.strokeStyle = colors.grid;
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i += 1) {
+        const y = pad.top + (plotH / 4) * i;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(pad.left + plotW, y);
+        ctx.stroke();
+      }
+      ctx.strokeStyle = colors.axis;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, pad.top);
+      ctx.lineTo(pad.left, pad.top + plotH);
+      ctx.lineTo(pad.left + plotW, pad.top + plotH);
+      ctx.stroke();
+    }
+
+    function drawAxisLabels(ctx, rows, min, max, pad, plotW, plotH) {
+      ctx.fillStyle = chartThemeColors().label;
+      ctx.font = "12px Inter, system-ui, sans-serif";
+      ctx.textAlign = "right";
+      ctx.textBaseline = "middle";
+      for (let i = 0; i <= 4; i += 1) {
+        const value = max - ((max - min) / 4) * i;
+        const y = pad.top + (plotH / 4) * i;
+        ctx.fillText(formatNumber(value, value >= 100 ? 0 : 1), pad.left - 8, y);
+      }
+      ctx.textAlign = "center";
+      ctx.textBaseline = "top";
+      const dateRows = [rows[0], rows[Math.floor(rows.length / 2)], rows.at(-1)].filter(Boolean);
+      const seen = new Set();
+      dateRows.forEach(row => {
+        const label = formatDate(row.timestamp);
+        if (seen.has(label)) return;
+        seen.add(label);
+        const ratio = rows.length === 1 ? 0.5 : (row.timestamp - rows[0].timestamp) / Math.max(1, rows.at(-1).timestamp - rows[0].timestamp);
+        ctx.fillText(label, pad.left + ratio * plotW, pad.top + plotH + 14);
+      });
+    }
+
+    function drawCenteredText(ctx, text, width, height) {
+      ctx.fillStyle = chartThemeColors().label;
+      ctx.font = "15px Inter, system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, width / 2, height / 2);
+    }
+
+    function handleChartHover(event) {
+      const nearest = nearestChartPoint(event);
+      if (!nearest) {
+        hideChartTooltip();
+        return;
+      }
+      const reading = nearest.row;
+      const metric = nearest.metric;
+      const unit = FIELD_DEFS[metric.key]?.unit || "";
+      els.chartTooltip.innerHTML = `
+        <strong>${escapeHtml(metric.label)}: ${escapeHtml(formatUnit(reading[metric.key], unit, metric.key === "rD" ? 0 : 1))}</strong>
+        <div class="muted">Perfil ${reading.slot} - ${escapeHtml(formatDateTime(reading.timestamp))}</div>
+        <div>Peso: ${escapeHtml(formatUnit(reading.Wk, "kg", 1))}</div>
+        <div>Grasa: ${escapeHtml(formatUnit(reading.FW, "%", 1))} - Musculo: ${escapeHtml(formatUnit(reading.mW, "kg", 1))}</div>
+        <div>Visceral: ${escapeHtml(formatNumber(reading.IF, 0))} - Agua: ${escapeHtml(formatUnit(reading.ww, "%", 1))}</div>
+        <div>Edad corporal: ${escapeHtml(formatUnit(reading.rA, "años", 0))}</div>
+      `;
+      const canvasRect = els.trendCanvas.getBoundingClientRect();
+      const mouseX = event.clientX - canvasRect.left;
+      const mouseY = event.clientY - canvasRect.top;
+      const parentRect = els.trendCanvas.parentElement.getBoundingClientRect();
+      const tooltipWidth = 250;
+      const left = clamp(mouseX + 14, 8, Math.max(8, parentRect.width - tooltipWidth - 8));
+      const top = clamp(mouseY - 18, 8, Math.max(8, parentRect.height - 118));
+      els.chartTooltip.style.left = `${left}px`;
+      els.chartTooltip.style.top = `${top}px`;
+      els.chartTooltip.hidden = false;
+    }
+
+    function handleChartClick(event) {
+      const nearest = nearestChartPoint(event);
+      if (!nearest) return;
+      state.pinnedReadingKey = makeReadingKey(nearest.row);
+      saveState();
+      render();
+    }
+
+    function nearestChartPoint(event) {
+      if (!state.chartPoints.length) return null;
+      const rect = els.trendCanvas.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+      let nearest = null;
+      let nearestDistance = Infinity;
+      for (const point of state.chartPoints) {
+        const dx = point.x - mouseX;
+        const dy = point.y - mouseY;
+        const distance = dx * dx + dy * dy;
+        if (distance < nearestDistance) {
+          nearest = point;
+          nearestDistance = distance;
+        }
+      }
+      return nearestDistance <= 144 ? nearest : null;
+    }
+
+    function hideChartTooltip() {
+      if (els.chartTooltip) els.chartTooltip.hidden = true;
+    }
+
+    function selectedReadings() {
+      return filteredReadings(state.readings);
+    }
+
+    function filteredReadings(source) {
+      const base = source.filter(reading => reading.slot === state.selectedSlot);
+      return base.filter(reading => {
+        const value = dateInputValue(reading.timestamp);
+        if (!value) return false;
+        if (state.dateFrom && value < state.dateFrom) return false;
+        if (state.dateTo && value > state.dateTo) return false;
+        return true;
+      });
+    }
+
+    function panelReading() {
+      const readings = selectedReadings();
+      if (state.pinnedReadingKey) {
+        const pinned = readings.find(reading => makeReadingKey(reading) === state.pinnedReadingKey);
+        if (pinned) return pinned;
+        state.pinnedReadingKey = "";
+      }
+      return readings.at(-1);
+    }
+
+    function slotsWithData() {
+      return Array.from(new Set([
+        ...state.profiles.map(profile => profile.slot),
+        ...state.readings.map(reading => reading.slot),
+        ...state.excludedReadings.map(reading => reading.slot)
+      ])).sort((a, b) => a - b);
+    }
+
+    function pickInitialSlot(profiles, readings) {
+      const counts = new Map();
+      readings.forEach(reading => counts.set(reading.slot, (counts.get(reading.slot) || 0) + 1));
+      const slot = Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0];
+      return slot || profiles[0]?.slot || null;
+    }
+
+    function findProfile(slot) {
+      return state.profiles.find(profile => profile.slot === slot);
+    }
+
+    function profileName(slot) {
+      const profile = findProfile(slot);
+      return profile?.displayName || `Perfil ${slot}`;
+    }
+
+    function setProfileName(slot, name) {
+      let profile = findProfile(slot);
+      if (!profile) {
+        profile = { slot, displayName: name };
+        state.profiles.push(profile);
+      } else {
+        profile.displayName = name;
+      }
+      saveState();
+      render();
+    }
+
+    function openManualDialog() {
+      els.manualForm.reset();
+      renderManualSlotOptions();
+      const now = new Date();
+      els.manualForm.elements.date.value = isoDate(now);
+      els.manualForm.elements.time.value = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+      const selectedSlot = state.selectedSlot || slotsWithData()[0] || 1;
+      els.manualForm.elements.slot.value = String(selectedSlot);
+      fillManualProfileDefaults(selectedSlot);
+      if (typeof els.manualDialog.showModal === "function") {
+        els.manualDialog.showModal();
+      } else {
+        els.manualDialog.hidden = false;
+      }
+    }
+
+    function closeManualDialog() {
+      if (typeof els.manualDialog.close === "function") {
+        els.manualDialog.close();
+      } else {
+        els.manualDialog.hidden = true;
+      }
+    }
+
+    function renderManualSlotOptions() {
+      const slots = Array.from(new Set([1, 2, 3, 4, ...slotsWithData()])).sort((a, b) => a - b);
+      els.manualSlot.innerHTML = slots.map(slot => `<option value="${slot}">${escapeHtml(profileName(slot))}</option>`).join("");
+      els.manualSlot.onchange = () => fillManualProfileDefaults(Number(els.manualSlot.value));
+    }
+
+    function fillManualProfileDefaults(slot) {
+      const profile = findProfile(slot);
+      els.manualForm.elements.model.value = profile?.model || "";
+    }
+
+    function addManualReading() {
+      const form = els.manualForm;
+      const data = new FormData(form);
+      const slot = Number(data.get("slot"));
+      const dateValue = String(data.get("date") || "");
+      const timeValue = String(data.get("time") || "");
+      const timestamp = parseInputDateTime(dateValue, timeValue);
+      if (!slot || !Number.isFinite(timestamp.getTime())) {
+        window.alert("Revisa perfil, fecha y hora.");
+        return;
+      }
+      const profile = findProfile(slot);
+      const reading = {
+        slot,
+        originalSlot: slot,
+        sourcePath: "manual",
+        lineNumber: Date.now(),
+        raw: {},
+        timestamp,
+        dateText: dateTextFromIso(dateValue),
+        timeText: normalizeTimeText(timeValue),
+        model: String(data.get("model") || profile?.model || "manual"),
+        notes: [],
+        Bt: profile?.bodyTypeCode ?? null,
+        GE: profile?.genderCode ?? null,
+        AG: ageAt(profile?.birthDate, timestamp),
+        Hm: profile?.heightCm ?? null,
+        AL: profile?.activityCode ?? null
+      };
+      for (const key of READING_NUMBER_KEYS) {
+        if (["Bt", "GE", "AG", "Hm", "AL"].includes(key)) continue;
+        const value = formNumber(data, key);
+        if (Number.isFinite(value)) reading[key] = value;
+      }
+      if (!Number.isFinite(reading.MI) && Number.isFinite(reading.Wk) && Number.isFinite(reading.Hm) && reading.Hm > 0) {
+        const heightM = reading.Hm / 100;
+        reading.MI = Number((reading.Wk / (heightM * heightM)).toFixed(1));
+      }
+      const allReadings = [...state.readings, ...state.excludedReadings, reading]
+        .filter(item => !state.deletedKeys.includes(makeReadingKey(item)));
+      rebuildReadingSets(deduplicateReadings(allReadings));
+      state.tableMode = state.excludedReadings.some(item => makeReadingKey(item) === makeReadingKey(reading)) ? "excluded" : "valid";
+      saveState();
+      closeManualDialog();
+      setStatus(`Añadida lectura manual de ${profileName(slot)} del ${formatDateTime(timestamp)}.`);
+      render();
+    }
+
+    function groupBy(items, getKey) {
+      const map = new Map();
+      for (const item of items) {
+        const key = getKey(item);
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(item);
+      }
+      return map;
+    }
+
+    function formatGender(code) {
+      if (String(code) === "1") return "Hombre";
+      if (String(code) === "2") return "Mujer";
+      return `Código ${code ?? "-"}`;
+    }
+
+    function formatBodyType(code) {
+      if (String(code) === "0") return "Estándar";
+      if (String(code) === "2") return "Atleta";
+      return `Código ${code ?? "-"}`;
+    }
+
+    function formatActivity(code) {
+      const text = {
+        1: "Nivel 1 - baja",
+        2: "Nivel 2 - moderada",
+        3: "Nivel 3 - intensa"
+      };
+      return text[String(code)] || `Código ${code ?? "-"}`;
+    }
+
+    function formatDate(date) {
+      if (!date || !Number.isFinite(date.getTime())) return "-";
+      return date.toLocaleDateString("es-ES", { year: "2-digit", month: "2-digit", day: "2-digit" });
+    }
+
+    function dateInputValue(date) {
+      if (!date || !Number.isFinite(date.getTime())) return "";
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function formatDateTime(date) {
+      if (!date || !Number.isFinite(date.getTime())) return "-";
+      return `${formatDate(date)} ${date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })}`;
+    }
+
+    function formatNumber(value, decimals = 1) {
+      if (!Number.isFinite(value)) return "-";
+      return Number(value).toLocaleString("es-ES", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatUnit(value, unit, decimals = 1) {
+      const number = formatNumber(value, decimals);
+      if (number === "-") return "-";
+      return unit ? `${number} ${unit}` : number;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function setStatus(message) {
+      els.statusLine.innerHTML = escapeHtml(message);
+    }
+
+    async function exportCsv() {
+      if (!state.readings.length && !state.excludedReadings.length) return;
+      const filename = `SilviForTANITA_${timestampForFilename(new Date())}.csv`;
+      const csv = buildBackupCsv();
+      const blob = new Blob([`\ufeff${csv}`], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+      const savedPath = await saveExportToServer(filename, csv);
+      setStatus(savedPath
+        ? `Exportado respaldo ${filename} y guardado en ${savedPath}.`
+        : `Exportado respaldo ${filename}. Si usas el servidor local, tambien se guarda en la carpeta data/exports.`);
+    }
+
+    function buildBackupCsv() {
+      const exportedAt = new Date().toISOString();
+      const rows = [];
+      rows.push(backupRow({
+        record_type: "settings",
+        app: "SilviForTANITA",
+        version: 1,
+        exported_at: exportedAt,
+        selected_slot: state.selectedSlot,
+        selected_metric: state.selectedMetric,
+        all_profiles: 0,
+        table_mode: state.tableMode,
+        theme: state.theme,
+        date_from: state.dateFrom,
+        date_to: state.dateTo,
+        y_zoom: state.yZoom,
+        pinned_reading_key: state.pinnedReadingKey
+      }));
+      state.profiles.forEach(profile => {
+        rows.push(backupRow({
+          record_type: "profile",
+          app: "SilviForTANITA",
+          version: 1,
+          exported_at: exportedAt,
+          slot: profile.slot,
+          display_name: profile.displayName || "",
+          model: profile.model || "",
+          birth_date: profile.birthDate || "",
+          gender_code: profile.genderCode,
+          gender: profile.gender || "",
+          body_type_code: profile.bodyTypeCode,
+          body_type: profile.bodyType || "",
+          height_cm: profile.heightCm,
+          activity_code: profile.activityCode,
+          activity: profile.activity || ""
+        }));
+      });
+      [
+        ...state.readings.map(reading => ({ reading, status: "valid" })),
+        ...state.excludedReadings.map(reading => ({ reading, status: "excluded" }))
+      ].forEach(({ reading, status }) => rows.push(readingBackupRow(reading, status, exportedAt)));
+      state.deletedKeys.forEach(key => {
+        rows.push(backupRow({
+          record_type: "deleted",
+          app: "SilviForTANITA",
+          version: 1,
+          exported_at: exportedAt,
+          deleted_key: key
+        }));
+      });
+      return [BACKUP_HEADERS, ...rows].map(row => row.map(csvEscape).join(",")).join("\n");
+    }
+
+    function backupRow(values) {
+      return BACKUP_HEADERS.map(header => values[header] ?? "");
+    }
+
+    function readingBackupRow(reading, status, exportedAt) {
+      const values = {
+        record_type: "reading",
+        app: "SilviForTANITA",
+        version: 1,
+        exported_at: exportedAt,
+        status,
+        slot: reading.slot,
+        model: reading.model || "",
+        timestamp: reading.timestamp instanceof Date ? reading.timestamp.toISOString() : reading.timestamp,
+        date_text: reading.dateText || "",
+        time_text: reading.timeText || "",
+        source_path: reading.sourcePath || "",
+        line_number: reading.lineNumber || "",
+        original_slot: reading.originalSlot || reading.slot,
+        notes: Array.isArray(reading.notes) ? reading.notes.join("; ") : ""
+      };
+      READING_NUMBER_KEYS.forEach(key => {
+        values[key] = reading[key] ?? "";
+      });
+      return backupRow(values);
+    }
+
+    async function saveExportToServer(filename, csv) {
+      try {
+        const response = await fetch("/api/export-csv", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename, csv })
+        });
+        if (!response.ok) return "";
+        const payload = await response.json();
+        return payload.ok ? payload.path : "";
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function isBackupCsv(text) {
+      const firstLine = String(text || "").split(/\r?\n/).find(line => line.trim());
+      if (!firstLine) return false;
+      const headers = splitCsvLine(firstLine).map(header => header.replace(/^\uFEFF/, ""));
+      return headers.includes("record_type") && headers.includes("app") && headers.includes("version");
+    }
+
+    function restoreBackupCsv(text, name) {
+      const rows = parseCsvObjects(text);
+      if (!rows.length || rows[0].app !== "SilviForTANITA") {
+        setStatus("El CSV seleccionado no parece un respaldo de SilviForTANITA.");
+        return;
+      }
+      const profiles = [];
+      const validReadings = [];
+      const excludedReadings = [];
+      const deletedKeys = [];
+      const settings = rows.find(row => row.record_type === "settings") || {};
+
+      rows.forEach(row => {
+        if (row.record_type === "profile") {
+          profiles.push({
+            slot: csvNumber(row.slot),
+            displayName: row.display_name || "",
+            model: row.model || "",
+            birthDate: row.birth_date || "",
+            genderCode: csvNumber(row.gender_code),
+            gender: row.gender || formatGender(row.gender_code),
+            bodyTypeCode: csvNumber(row.body_type_code),
+            bodyType: row.body_type || formatBodyType(row.body_type_code),
+            heightCm: csvNumber(row.height_cm),
+            activityCode: csvNumber(row.activity_code),
+            activity: row.activity || formatActivity(row.activity_code),
+            checksum: ""
+          });
+        }
+        if (row.record_type === "reading") {
+          const reading = readingFromBackupRow(row);
+          if (row.status === "excluded") excludedReadings.push(reading);
+          else validReadings.push(reading);
+        }
+        if (row.record_type === "deleted" && row.deleted_key) {
+          deletedKeys.push(row.deleted_key);
+        }
+      });
+
+      state.profiles = profiles.sort((a, b) => a.slot - b.slot);
+      state.readings = validReadings.sort((a, b) => a.timestamp - b.timestamp);
+      state.excludedReadings = excludedReadings.sort((a, b) => a.timestamp - b.timestamp);
+      state.deletedKeys = deletedKeys;
+      state.selectedSlot = csvNumber(settings.selected_slot) || pickInitialSlot(state.profiles, [...state.readings, ...state.excludedReadings]);
+      state.selectedMetric = settings.selected_metric || "Wk";
+      state.allProfiles = false;
+      state.tableMode = settings.table_mode === "excluded" ? "excluded" : "valid";
+      state.theme = settings.theme === "dark" ? "dark" : "light";
+      applyTheme();
+      state.yZoom = Number.isFinite(csvNumber(settings.y_zoom)) ? csvNumber(settings.y_zoom) : 40;
+      state.pinnedReadingKey = settings.pinned_reading_key || "";
+      state.sourceLabel = `respaldo ${name}`;
+      setDateBounds([...state.readings, ...state.excludedReadings]);
+      if (settings.date_from && settings.date_from >= state.dateMin && settings.date_from <= state.dateMax) state.dateFrom = settings.date_from;
+      if (settings.date_to && settings.date_to >= state.dateMin && settings.date_to <= state.dateMax) state.dateTo = settings.date_to;
+      normalizeDateRange();
+      saveState();
+      setStatus(`Restaurado ${name}: ${state.readings.length} validas y ${state.excludedReadings.length} fuera de rango.`);
+      render();
+    }
+
+    function parseCsvObjects(text) {
+      const lines = String(text || "").split(/\r?\n/).filter(line => line.trim());
+      if (!lines.length) return [];
+      const headers = splitCsvLine(lines[0]).map(header => header.replace(/^\uFEFF/, ""));
+      return lines.slice(1).map(line => {
+        const cells = splitCsvLine(line);
+        const row = {};
+        headers.forEach((header, index) => {
+          row[header] = cells[index] ?? "";
+        });
+        return row;
+      });
+    }
+
+    function readingFromBackupRow(row) {
+      const reading = {
+        slot: csvNumber(row.slot),
+        originalSlot: csvNumber(row.original_slot) || csvNumber(row.slot),
+        sourcePath: row.source_path || "respaldo CSV",
+        lineNumber: csvNumber(row.line_number) || 0,
+        raw: {},
+        timestamp: row.timestamp ? new Date(row.timestamp) : parseDateTime(row.date_text, row.time_text),
+        dateText: row.date_text || "",
+        timeText: row.time_text || "",
+        model: row.model || "",
+        notes: row.notes ? row.notes.split(";").map(item => item.trim()).filter(Boolean) : []
+      };
+      READING_NUMBER_KEYS.forEach(key => {
+        const value = csvNumber(row[key]);
+        if (Number.isFinite(value)) reading[key] = value;
+      });
+      if (row.status === "excluded" && !reading.notes.length) {
+        reading.notes.push("peso fuera de rango");
+      }
+      return reading;
+    }
+
+    function csvNumber(value) {
+      const raw = String(value ?? "").trim();
+      if (!raw) return null;
+      return toNumber(raw);
+    }
+
+    function isoDate(date) {
+      if (!date || !Number.isFinite(date.getTime())) return "";
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function timestampForFilename(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const hour = String(date.getHours()).padStart(2, "0");
+      const minute = String(date.getMinutes()).padStart(2, "0");
+      const second = String(date.getSeconds()).padStart(2, "0");
+      return `${year}${month}${day}_${hour}${minute}${second}`;
+    }
+
+    function csvEscape(value) {
+      const text = value === null || value === undefined ? "" : String(value);
+      if (/[",\n]/.test(text)) {
+        return `"${text.replaceAll("\"", "\"\"")}"`;
+      }
+      return text;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll("\"", "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+  </script>
+</body>
+</html>
