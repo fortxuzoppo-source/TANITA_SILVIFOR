@@ -17,11 +17,54 @@
       --accent-3: #3f7d20;
       --warn: #b7791f;
       --danger: #b42318;
+      --accent-strong: #066b76;
+      --hover-border: #a8b7bd;
+      --danger-border: #f3b7b1;
+      --danger-bg: #fff5f4;
+      --danger-hover: #ffe9e6;
+      --soft-bg: #fbfcfc;
+      --canvas-bg: #ffffff;
+      --tooltip-bg: rgba(255, 255, 255, 0.96);
+      --body-map-bg: #fff8e9;
+      --callout-bg: rgba(255, 255, 255, 0.86);
+      --flagged-bg: #fff7ed;
+      --tag-bg: #fff0df;
+      --tag-text: #8a4b10;
+      --tag-border: #ffd8a8;
       --shadow: 0 12px 30px rgba(23, 32, 38, 0.08);
       --radius: 8px;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background: var(--bg);
+    }
+
+    body[data-theme="dark"] {
+      --bg: #11181c;
+      --panel: #182226;
+      --panel-2: #202c31;
+      --text: #edf4f6;
+      --muted: #a7b5bb;
+      --line: #314149;
+      --accent: #30b7c4;
+      --accent-2: #f07a55;
+      --accent-3: #7fcf6b;
+      --warn: #e5b155;
+      --danger: #ff8a7c;
+      --accent-strong: #239aa6;
+      --hover-border: #5c7078;
+      --danger-border: #9f4b45;
+      --danger-bg: #2d1d1d;
+      --danger-hover: #3a2424;
+      --soft-bg: #202c31;
+      --canvas-bg: #182226;
+      --tooltip-bg: rgba(24, 34, 38, 0.96);
+      --body-map-bg: #24231f;
+      --callout-bg: rgba(24, 34, 38, 0.88);
+      --flagged-bg: #31261f;
+      --tag-bg: #3a2a1b;
+      --tag-text: #ffd18f;
+      --tag-border: #6d4b24;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
     }
 
     * {
@@ -32,7 +75,7 @@
       margin: 0;
       min-width: 320px;
       background:
-        linear-gradient(180deg, #ffffff 0, #f6f7f9 220px),
+        linear-gradient(180deg, var(--panel) 0, var(--bg) 220px),
         var(--bg);
       color: var(--text);
       letter-spacing: 0;
@@ -46,7 +89,7 @@
 
     button {
       border: 1px solid var(--line);
-      background: #ffffff;
+      background: var(--panel);
       color: var(--text);
       border-radius: 7px;
       min-height: 38px;
@@ -55,8 +98,8 @@
     }
 
     button:hover {
-      border-color: #a8b7bd;
-      background: #f9fbfb;
+      border-color: var(--hover-border);
+      background: var(--panel-2);
     }
 
     input[type="date"],
@@ -66,7 +109,7 @@
       min-height: 38px;
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #ffffff;
+      background: var(--panel);
       color: var(--text);
       padding: 0 10px;
     }
@@ -75,7 +118,7 @@
       min-height: 38px;
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #ffffff;
+      background: var(--panel);
       color: var(--text);
       padding: 0 10px;
       width: 100%;
@@ -98,8 +141,8 @@
     }
 
     button.primary:hover {
-      background: #066b76;
-      border-color: #066b76;
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
     }
 
     button.ghost {
@@ -108,19 +151,19 @@
 
     button.danger {
       color: var(--danger);
-      border-color: #f3b7b1;
-      background: #fff5f4;
+      border-color: var(--danger-border);
+      background: var(--danger-bg);
     }
 
     button.danger:hover {
-      background: #ffe9e6;
-      border-color: #e98b82;
+      background: var(--danger-hover);
+      border-color: var(--danger);
     }
 
     button.segment {
       min-width: 92px;
       padding: 0 10px;
-      background: #ffffff;
+      background: var(--panel);
     }
 
     button.segment.active {
@@ -130,9 +173,9 @@
     }
 
     .app-shell {
-      width: min(1440px, 100%);
-      margin: 0 auto;
-      padding: 22px;
+      width: 100%;
+      margin: 0;
+      padding: 10px;
     }
 
     .topbar {
@@ -179,9 +222,70 @@
     .actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
+    }
+
+    .data-menu {
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .data-menu summary {
+      list-style: none;
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      background: var(--accent);
+      color: #ffffff;
+      padding: 0 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .data-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .data-menu summary::after {
+      content: "v";
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .data-menu[open] summary {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
+    }
+
+    .data-menu-panel {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      z-index: 10;
+      min-width: 230px;
+      display: grid;
+      gap: 6px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .data-menu-panel button {
+      justify-content: flex-start;
+      text-align: left;
+      width: 100%;
+    }
+
+    .theme-toggle {
+      min-width: 128px;
+      flex: 0 0 auto;
     }
 
     .hidden-input {
@@ -214,9 +318,9 @@
 
     .summary-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(150px, 1fr));
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
     .metric-card,
@@ -256,8 +360,8 @@
 
     .main-grid {
       display: grid;
-      grid-template-columns: minmax(280px, 380px) 1fr;
-      gap: 16px;
+      grid-template-columns: minmax(270px, 340px) minmax(0, 1fr);
+      gap: 10px;
       align-items: start;
     }
 
@@ -308,7 +412,7 @@
       border-radius: 7px;
       padding: 10px;
       min-height: 74px;
-      background: #fbfcfc;
+      background: var(--soft-bg);
     }
 
     .mini-stat .value {
@@ -381,7 +485,7 @@
       height: 330px;
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #ffffff;
+      background: var(--canvas-bg);
       overflow: hidden;
     }
 
@@ -398,9 +502,9 @@
       min-width: 190px;
       max-width: 260px;
       padding: 10px 12px;
-      border: 1px solid #b7c4c9;
+      border: 1px solid var(--line);
       border-radius: 7px;
-      background: rgba(255, 255, 255, 0.96);
+      background: var(--tooltip-bg);
       box-shadow: 0 10px 24px rgba(23, 32, 38, 0.18);
       color: var(--text);
       font-size: 13px;
@@ -445,7 +549,7 @@
       min-height: 360px;
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #fff8e9;
+      background: var(--body-map-bg);
       overflow: hidden;
     }
 
@@ -467,9 +571,9 @@
       font-size: 13px;
       line-height: 1.25;
       padding: 8px;
-      border: 1px solid rgba(216, 224, 228, 0.92);
+      border: 1px solid var(--line);
       border-radius: 7px;
-      background: rgba(255, 255, 255, 0.86);
+      background: var(--callout-bg);
       box-shadow: 0 8px 24px rgba(23, 32, 38, 0.10);
     }
 
@@ -492,8 +596,8 @@
     .segment-value {
       min-width: 48px;
       padding: 2px 5px;
-      border: 1px solid #c8d3d8;
-      background: #ffffff;
+      border: 1px solid var(--line);
+      background: var(--panel);
       color: var(--text);
       text-align: right;
       font-weight: 700;
@@ -539,7 +643,7 @@
     .gauge-card {
       border: 1px solid var(--line);
       border-radius: 7px;
-      background: #fbfcfc;
+      background: var(--soft-bg);
       padding: 11px;
     }
 
@@ -556,8 +660,8 @@
     .gauge-track {
       position: relative;
       height: 24px;
-      border: 1px solid #c7d2d7;
-      background: #edf2f3;
+      border: 1px solid var(--line);
+      background: var(--panel);
       overflow: hidden;
     }
 
@@ -588,7 +692,7 @@
       top: -4px;
       bottom: -4px;
       width: 3px;
-      background: #172026;
+      background: var(--text);
       box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
     }
 
@@ -633,7 +737,7 @@
       padding: 3px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #f7fafb;
+      background: var(--panel-2);
     }
 
     .table-tabs button {
@@ -644,7 +748,7 @@
 
     .table-tabs button.active {
       border-color: var(--accent);
-      background: #ffffff;
+      background: var(--panel);
       color: var(--accent);
       box-shadow: inset 0 0 0 1px var(--accent);
     }
@@ -682,13 +786,13 @@
       position: sticky;
       top: 0;
       z-index: 1;
-      background: #f8fafb;
-      color: #4b5962;
+      background: var(--panel-2);
+      color: var(--muted);
       font-weight: 700;
     }
 
     tr.flagged td {
-      background: #fff7ed;
+      background: var(--flagged-bg);
     }
 
     .tag {
@@ -697,18 +801,18 @@
       min-height: 24px;
       padding: 0 8px;
       border-radius: 999px;
-      background: #fff0df;
-      color: #8a4b10;
-      border: 1px solid #ffd8a8;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid var(--tag-border);
       font-size: 12px;
       font-weight: 650;
     }
 
     .empty {
       min-height: 0;
-      border: 1px dashed #aab8bf;
+      border: 1px dashed var(--hover-border);
       border-radius: var(--radius);
-      background: #ffffff;
+      background: var(--panel);
       padding: 14px 16px;
     }
 
@@ -785,7 +889,7 @@
 
     @media (max-width: 720px) {
       .app-shell {
-        padding: 14px;
+        padding: 8px;
       }
 
       .topbar,
@@ -801,8 +905,10 @@
         justify-content: stretch;
       }
 
-      .actions button,
-      .actions label,
+      .actions {
+        justify-content: flex-end;
+      }
+
       .table-actions button,
       .table-tabs,
       .metric-select button,
@@ -879,17 +985,22 @@
       <div class="actions">
         <input id="folderInput" class="hidden-input" type="file" multiple webkitdirectory directory accept=".csv,.txt">
         <input id="fileInput" class="hidden-input" type="file" multiple accept=".csv,.txt">
-        <button class="primary" id="importButton" type="button">Importar GRAPHV1</button>
-        <button id="importFilesButton" type="button">Importar archivos</button>
-        <button id="reloadButton" type="button">Recargar muestra</button>
-        <button id="exportButton" type="button">Exportar respaldo CSV</button>
+        <details class="data-menu" id="dataMenu">
+          <summary>Datos</summary>
+          <div class="data-menu-panel">
+            <button id="importButton" type="button">Importar GRAPHV1</button>
+            <button id="importFilesButton" type="button">Importar respaldo CSV</button>
+            <button id="exportButton" type="button">Exportar respaldo CSV</button>
+          </div>
+        </details>
+        <button id="themeToggle" class="theme-toggle" type="button">Modo oscuro</button>
       </div>
     </header>
 
     <div class="status-line" id="statusLine">Preparando lector de datos...</div>
 
     <section id="emptyState" class="empty" hidden>
-      <p>Sin lecturas cargadas. Usa los botones superiores para importar datos o recargar la muestra del proyecto.</p>
+      <p>Sin lecturas cargadas. Usa Datos para importar la tarjeta GRAPHV1 o restaurar un respaldo CSV.</p>
     </section>
 
     <section id="dashboard" hidden>
@@ -949,7 +1060,6 @@
           <div class="table-actions">
             <div class="table-tabs" id="tableTabs" aria-label="Tipo de lectura"></div>
             <button id="addReadingButton" type="button">Añadir lectura</button>
-            <button id="showAllButton" type="button">Ver todos los perfiles</button>
           </div>
         </div>
         <div class="table-scroll">
@@ -1160,7 +1270,7 @@
       "record_type", "app", "version", "exported_at", "status", "slot", "display_name",
       "model", "birth_date", "gender_code", "gender", "body_type_code", "body_type",
       "height_cm", "activity_code", "activity", "selected_slot", "selected_metric",
-      "all_profiles", "table_mode", "date_from", "date_to", "y_zoom", "pinned_reading_key",
+      "all_profiles", "table_mode", "theme", "date_from", "date_to", "y_zoom", "pinned_reading_key",
       "deleted_key", "timestamp", "date_text", "time_text", "source_path", "line_number",
       "original_slot", "notes", ...READING_NUMBER_KEYS
     ];
@@ -1185,6 +1295,7 @@
       dateTo: "",
       dateMin: "",
       dateMax: "",
+      theme: "light",
       chartPoints: [],
       deletedKeys: [],
       yZoom: 40,
@@ -1197,11 +1308,11 @@
     const els = {
       folderInput: document.getElementById("folderInput"),
       fileInput: document.getElementById("fileInput"),
+      dataMenu: document.getElementById("dataMenu"),
       importButton: document.getElementById("importButton"),
       importFilesButton: document.getElementById("importFilesButton"),
-      reloadButton: document.getElementById("reloadButton"),
       exportButton: document.getElementById("exportButton"),
-      showAllButton: document.getElementById("showAllButton"),
+      themeToggle: document.getElementById("themeToggle"),
       addReadingButton: document.getElementById("addReadingButton"),
       tableTabs: document.getElementById("tableTabs"),
       manualDialog: document.getElementById("manualDialog"),
@@ -1232,20 +1343,30 @@
     init();
 
     async function init() {
-      els.importButton.addEventListener("click", () => els.folderInput.click());
-      els.importFilesButton.addEventListener("click", () => els.fileInput.click());
-      els.reloadButton.addEventListener("click", () => loadSampleData());
-      els.exportButton.addEventListener("click", exportCsv);
+      applyTheme();
+      els.importButton.addEventListener("click", () => {
+        closeDataMenu();
+        els.folderInput.click();
+      });
+      els.importFilesButton.addEventListener("click", () => {
+        closeDataMenu();
+        els.fileInput.click();
+      });
+      els.exportButton.addEventListener("click", () => {
+        closeDataMenu();
+        exportCsv();
+      });
+      els.themeToggle.addEventListener("click", () => {
+        state.theme = state.theme === "dark" ? "light" : "dark";
+        applyTheme();
+        saveState();
+        drawChart();
+      });
       els.addReadingButton.addEventListener("click", openManualDialog);
       els.cancelManualButton.addEventListener("click", closeManualDialog);
       els.manualForm.addEventListener("submit", event => {
         event.preventDefault();
         addManualReading();
-      });
-      els.showAllButton.addEventListener("click", () => {
-        state.allProfiles = !state.allProfiles;
-        saveState();
-        render();
       });
       els.dateFrom.addEventListener("change", () => {
         state.dateFrom = els.dateFrom.value;
@@ -1304,6 +1425,17 @@
       } else {
         loadSampleData();
       }
+    }
+
+    function applyTheme() {
+      document.body.dataset.theme = state.theme === "dark" ? "dark" : "light";
+      if (els.themeToggle) {
+        els.themeToggle.textContent = state.theme === "dark" ? "Modo claro" : "Modo oscuro";
+      }
+    }
+
+    function closeDataMenu() {
+      if (els.dataMenu) els.dataMenu.open = false;
     }
 
     async function loadSampleData() {
@@ -1563,10 +1695,11 @@
         deletedKeys: state.deletedKeys,
         selectedSlot: state.selectedSlot,
         selectedMetric: state.selectedMetric,
-        allProfiles: state.allProfiles,
+        allProfiles: false,
         sourceLabel: "historico local",
         dateFrom: state.dateFrom,
         dateTo: state.dateTo,
+        theme: state.theme,
         yZoom: state.yZoom,
         pinnedReadingKey: state.pinnedReadingKey,
         tableMode: state.tableMode
@@ -1580,8 +1713,10 @@
       state.deletedKeys = Array.isArray(saved.deletedKeys) ? saved.deletedKeys : [];
       state.selectedSlot = saved.selectedSlot || pickInitialSlot(state.profiles, [...state.readings, ...state.excludedReadings]);
       state.selectedMetric = saved.selectedMetric || state.selectedMetric;
-      state.allProfiles = Boolean(saved.allProfiles);
+      state.allProfiles = false;
       state.sourceLabel = sourceLabel || saved.sourceLabel || "historico local";
+      state.theme = saved.theme === "dark" ? "dark" : "light";
+      applyTheme();
       state.yZoom = Number.isFinite(saved.yZoom) ? saved.yZoom : state.yZoom;
       state.pinnedReadingKey = saved.pinnedReadingKey || "";
       state.tableMode = saved.tableMode === "excluded" ? "excluded" : "valid";
@@ -1780,7 +1915,6 @@
       els.emptyState.hidden = hasData;
       els.dashboard.hidden = !hasData;
       els.exportButton.disabled = !hasData;
-      els.reloadButton.disabled = false;
       if (!hasData) return;
 
       renderProfiles();
@@ -1799,7 +1933,7 @@
         const profile = findProfile(slot);
         const count = state.readings.filter(reading => reading.slot === slot).length;
         const excludedCount = state.excludedReadings.filter(reading => reading.slot === slot).length;
-        const active = slot === state.selectedSlot && !state.allProfiles ? " active" : "";
+        const active = slot === state.selectedSlot ? " active" : "";
         const excludedText = excludedCount ? ` + ${excludedCount} fuera` : "";
         return `<button class="segment${active}" type="button" data-slot="${slot}">${escapeHtml(profileName(slot))}<br><span class="metric-sub">${profile ? profile.gender : "Sin perfil"} - ${count} lecturas${excludedText}</span></button>`;
       }).join("");
@@ -1814,15 +1948,11 @@
     }
 
     function renderSummary() {
-      const selected = selectedReadings();
-      const latest = selected.at(-1);
-      const suspectCount = state.excludedReadings.length;
-      const allLast = state.readings.at(-1);
+      const validForProfile = state.readings.filter(reading => reading.slot === state.selectedSlot);
+      const latest = validForProfile.at(-1);
       const rows = [
-        { label: "Lecturas validas", value: state.readings.length, sub: state.sourceLabel || "datos cargados" },
-        { label: "Última lectura", value: allLast ? formatDate(allLast.timestamp) : "-", sub: allLast ? `perfil ${allLast.slot}` : "" },
-        { label: "Rango activo", value: selected.length, sub: dateRangeLabel() },
-        { label: "Fuera de rango", value: suspectCount, sub: "visibles en la pestaña de lecturas" }
+        { label: "Lecturas validas", value: validForProfile.length, sub: profileName(state.selectedSlot) },
+        { label: "Ultima lectura", value: latest ? formatDate(latest.timestamp) : "-", sub: latest ? formatDateTime(latest.timestamp) : "sin lecturas validas" }
       ];
       els.summaryGrid.innerHTML = rows.map(row => `
         <article class="metric-card">
@@ -1939,7 +2069,7 @@
     }
 
     function timelineDates() {
-      const base = state.allProfiles ? state.readings : state.readings.filter(reading => reading.slot === state.selectedSlot);
+      const base = state.readings.filter(reading => reading.slot === state.selectedSlot);
       return Array.from(new Set(base.map(reading => dateInputValue(reading.timestamp)).filter(Boolean))).sort();
     }
 
@@ -2096,7 +2226,6 @@
     function renderTable() {
       renderTableTabs();
       const rows = tableReadings().slice().reverse();
-      els.showAllButton.textContent = state.allProfiles ? `Ver perfil ${state.selectedSlot}` : "Ver todos los perfiles";
       if (!rows.length) {
         els.readingsBody.innerHTML = `<tr><td colspan="12">No hay lecturas en esta vista.</td></tr>`;
         return;
@@ -2123,9 +2252,11 @@
     }
 
     function renderTableTabs() {
+      const validCount = state.readings.filter(reading => reading.slot === state.selectedSlot).length;
+      const excludedCount = state.excludedReadings.filter(reading => reading.slot === state.selectedSlot).length;
       const tabs = [
-        { key: "valid", label: `Válidas (${state.readings.length})` },
-        { key: "excluded", label: `Fuera de rango (${state.excludedReadings.length})` }
+        { key: "valid", label: `Válidas (${validCount})` },
+        { key: "excluded", label: `Fuera de rango (${excludedCount})` }
       ];
       els.tableTabs.innerHTML = tabs.map(tab => `
         <button class="${state.tableMode === tab.key ? "active" : ""}" type="button" data-table-mode="${tab.key}">
@@ -2227,12 +2358,13 @@
         const point = { x: x(row), y: y(row), row, metric };
         state.chartPoints.push(point);
         const pinned = makeReadingKey(row) === state.pinnedReadingKey;
+        const colors = chartThemeColors();
         ctx.beginPath();
-        ctx.fillStyle = row.notes.length ? "#b42318" : metric.color;
+        ctx.fillStyle = row.notes.length ? colors.danger : metric.color;
         ctx.arc(point.x, point.y, pinned ? 5.5 : row.notes.length ? 4.5 : 3.2, 0, Math.PI * 2);
         ctx.fill();
         if (pinned) {
-          ctx.strokeStyle = "#172026";
+          ctx.strokeStyle = colors.pin;
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.arc(point.x, point.y, 8, 0, Math.PI * 2);
@@ -2243,10 +2375,23 @@
       drawAxisLabels(ctx, rows, min, max, pad, plotW, plotH);
     }
 
+    function chartThemeColors() {
+      const dark = state.theme === "dark";
+      return {
+        bg: dark ? "#182226" : "#ffffff",
+        grid: dark ? "#314149" : "#e5ecef",
+        axis: dark ? "#5c7078" : "#b9c7cd",
+        label: dark ? "#a7b5bb" : "#65727d",
+        pin: dark ? "#edf4f6" : "#172026",
+        danger: dark ? "#ff8a7c" : "#b42318"
+      };
+    }
+
     function drawGrid(ctx, pad, plotW, plotH, width, height) {
-      ctx.fillStyle = "#ffffff";
+      const colors = chartThemeColors();
+      ctx.fillStyle = colors.bg;
       ctx.fillRect(0, 0, width, height);
-      ctx.strokeStyle = "#e5ecef";
+      ctx.strokeStyle = colors.grid;
       ctx.lineWidth = 1;
       for (let i = 0; i <= 4; i += 1) {
         const y = pad.top + (plotH / 4) * i;
@@ -2255,7 +2400,7 @@
         ctx.lineTo(pad.left + plotW, y);
         ctx.stroke();
       }
-      ctx.strokeStyle = "#b9c7cd";
+      ctx.strokeStyle = colors.axis;
       ctx.beginPath();
       ctx.moveTo(pad.left, pad.top);
       ctx.lineTo(pad.left, pad.top + plotH);
@@ -2264,7 +2409,7 @@
     }
 
     function drawAxisLabels(ctx, rows, min, max, pad, plotW, plotH) {
-      ctx.fillStyle = "#65727d";
+      ctx.fillStyle = chartThemeColors().label;
       ctx.font = "12px Inter, system-ui, sans-serif";
       ctx.textAlign = "right";
       ctx.textBaseline = "middle";
@@ -2287,7 +2432,7 @@
     }
 
     function drawCenteredText(ctx, text, width, height) {
-      ctx.fillStyle = "#65727d";
+      ctx.fillStyle = chartThemeColors().label;
       ctx.font = "15px Inter, system-ui, sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
@@ -2359,7 +2504,7 @@
     }
 
     function filteredReadings(source) {
-      const base = state.allProfiles ? source : source.filter(reading => reading.slot === state.selectedSlot);
+      const base = source.filter(reading => reading.slot === state.selectedSlot);
       return base.filter(reading => {
         const value = dateInputValue(reading.timestamp);
         if (!value) return false;
@@ -2596,8 +2741,9 @@
         exported_at: exportedAt,
         selected_slot: state.selectedSlot,
         selected_metric: state.selectedMetric,
-        all_profiles: state.allProfiles ? 1 : 0,
+        all_profiles: 0,
         table_mode: state.tableMode,
+        theme: state.theme,
         date_from: state.dateFrom,
         date_to: state.dateTo,
         y_zoom: state.yZoom,
@@ -2732,8 +2878,10 @@
       state.deletedKeys = deletedKeys;
       state.selectedSlot = csvNumber(settings.selected_slot) || pickInitialSlot(state.profiles, [...state.readings, ...state.excludedReadings]);
       state.selectedMetric = settings.selected_metric || "Wk";
-      state.allProfiles = settings.all_profiles === "1";
+      state.allProfiles = false;
       state.tableMode = settings.table_mode === "excluded" ? "excluded" : "valid";
+      state.theme = settings.theme === "dark" ? "dark" : "light";
+      applyTheme();
       state.yZoom = Number.isFinite(csvNumber(settings.y_zoom)) ? csvNumber(settings.y_zoom) : 40;
       state.pinnedReadingKey = settings.pinned_reading_key || "";
       state.sourceLabel = `respaldo ${name}`;
