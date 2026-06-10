@@ -59,6 +59,7 @@ class SilviHandler(SimpleHTTPRequestHandler):
         path = self.path.split("?", 1)[0]
         if path == "/api/health":
             ensure_dirs()
+            listen_host, listen_port = self.server.server_address[:2]
             self._send_json(
                 {
                     "ok": True,
@@ -67,6 +68,8 @@ class SilviHandler(SimpleHTTPRequestHandler):
                     "appIndex": str(APP_INDEX),
                     "stateFile": str(STATE_FILE),
                     "indexExists": APP_INDEX.exists(),
+                    "listenHost": str(listen_host),
+                    "listenPort": int(listen_port),
                 }
             )
             return
