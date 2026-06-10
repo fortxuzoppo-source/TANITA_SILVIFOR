@@ -1927,28 +1927,28 @@
       const startIndex = Math.max(0, dates.indexOf(state.dateFrom));
       const endIndex = Math.max(startIndex, dates.indexOf(state.dateTo));
       const windowSize = dates.length ? Math.max(1, endIndex - startIndex + 1) : 1;
+      const availableSize = dates.length ? Math.max(1, dates.length - startIndex) : 1;
       els.dateWindowSize.min = "1";
-      els.dateWindowSize.max = String(Math.max(1, dates.length));
-      els.dateWindowSize.value = String(windowSize);
+      els.dateWindowSize.max = String(availableSize);
+      els.dateWindowSize.value = String(Math.min(windowSize, availableSize));
       els.dateWindowSize.disabled = dates.length < 2;
       els.dateWindowStart.min = "0";
-      els.dateWindowStart.max = String(Math.max(0, dates.length - windowSize));
-      els.dateWindowStart.value = String(Math.min(startIndex, Math.max(0, dates.length - windowSize)));
+      els.dateWindowStart.max = String(Math.max(0, dates.length - 1));
+      els.dateWindowStart.value = String(Math.min(startIndex, Math.max(0, dates.length - 1)));
       els.dateWindowStart.disabled = dates.length < 2;
     }
 
     function timelineDates() {
-      const source = state.tableMode === "excluded" ? state.excludedReadings : state.readings;
-      const base = state.allProfiles ? source : source.filter(reading => reading.slot === state.selectedSlot);
+      const base = state.allProfiles ? state.readings : state.readings.filter(reading => reading.slot === state.selectedSlot);
       return Array.from(new Set(base.map(reading => dateInputValue(reading.timestamp)).filter(Boolean))).sort();
     }
 
     function updateDateRangeFromTimeline() {
       const dates = timelineDates();
       if (!dates.length) return;
-      let size = clamp(Number(els.dateWindowSize.value) || dates.length, 1, dates.length);
-      let start = clamp(Number(els.dateWindowStart.value) || 0, 0, Math.max(0, dates.length - size));
-      if (start + size > dates.length) start = Math.max(0, dates.length - size);
+      const start = clamp(Number(els.dateWindowStart.value) || 0, 0, Math.max(0, dates.length - 1));
+      const maxSize = Math.max(1, dates.length - start);
+      const size = clamp(Number(els.dateWindowSize.value) || maxSize, 1, maxSize);
       state.dateFrom = dates[start];
       state.dateTo = dates[start + size - 1] || dates.at(-1);
       saveState();
