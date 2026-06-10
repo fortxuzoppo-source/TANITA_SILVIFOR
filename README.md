@@ -2,7 +2,17 @@
 
 Aplicacion local `SilviForTANITA` para leer historicos de basculas Tanita BC-601/602 desde ficheros de tarjeta SD.
 
-## Arranque
+## Arranque facil
+
+Haz doble clic en:
+
+```text
+Abrir_SilviForTANITA.bat
+```
+
+Ese archivo arranca el servidor local si hace falta y abre la app en el navegador.
+
+## Arranque manual
 
 ```powershell
 python .\server.py --host 127.0.0.1 --port 8765

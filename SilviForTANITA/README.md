@@ -76,7 +76,15 @@ Primer MVP local para leer tarjetas SD de basculas Tanita BC-601/602.
 
 ## Uso
 
-Desde la carpeta raiz del proyecto, arranca:
+La forma sencilla es hacer doble clic en el archivo de la raiz del proyecto:
+
+```text
+Abrir_SilviForTANITA.bat
+```
+
+Ese lanzador arranca el servidor local si hace falta y abre la app en el navegador.
+
+Si prefieres hacerlo manualmente, desde la carpeta raiz del proyecto arranca:
 
 ```powershell
 python .\server.py --host 127.0.0.1 --port 8765
