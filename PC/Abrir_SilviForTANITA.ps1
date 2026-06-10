@@ -2,15 +2,21 @@ $ErrorActionPreference = "Stop"
 
 $root = $PSScriptRoot
 $url = "http://127.0.0.1:8765/SilviForTANITA/"
-$api = "http://127.0.0.1:8765/api/state"
+$health = "http://127.0.0.1:8765/api/health"
 $server = Join-Path $root "server.py"
 $outLog = Join-Path $env:TEMP "silvifortanita_server.out.log"
 $errLog = Join-Path $env:TEMP "silvifortanita_server.err.log"
 
 function Test-SilviServer {
   try {
-    Invoke-WebRequest -Uri $api -UseBasicParsing -TimeoutSec 1 | Out-Null
-    return $true
+    $payload = Invoke-RestMethod -Uri $health -TimeoutSec 1
+    if (-not $payload.ok) {
+      return $false
+    }
+
+    $serverRoot = [System.IO.Path]::GetFullPath([string] $payload.root).TrimEnd('\')
+    $expectedRoot = [System.IO.Path]::GetFullPath($root).TrimEnd('\')
+    return [string]::Equals($serverRoot, $expectedRoot, [System.StringComparison]::OrdinalIgnoreCase)
   } catch {
     return $false
   }

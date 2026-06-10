@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent
 DATA_DIR = ROOT / "SilviForTANITA" / "data"
 EXPORT_DIR = DATA_DIR / "exports"
 STATE_FILE = DATA_DIR / "silvifortanita_state.json"
+APP_INDEX = ROOT / "SilviForTANITA" / "index.html"
 
 
 def ensure_dirs() -> None:
@@ -55,7 +56,21 @@ class SilviHandler(SimpleHTTPRequestHandler):
         return json.loads(raw.decode("utf-8"))
 
     def do_GET(self) -> None:
-        if self.path.split("?", 1)[0] == "/api/state":
+        path = self.path.split("?", 1)[0]
+        if path == "/api/health":
+            ensure_dirs()
+            self._send_json(
+                {
+                    "ok": True,
+                    "app": "SilviForTANITA",
+                    "root": str(ROOT),
+                    "appIndex": str(APP_INDEX),
+                    "stateFile": str(STATE_FILE),
+                    "indexExists": APP_INDEX.exists(),
+                }
+            )
+            return
+        if path == "/api/state":
             ensure_dirs()
             if STATE_FILE.exists():
                 self._send_json(
